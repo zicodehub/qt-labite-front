@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/qml">
+        <file>MobileApplication.qml</file>
+        <file>MobileHeader.qml</file>
+        <file>MobileDrawer.qml</file>
+        <file>MobilePermissions.qml</file>
+        <file>MobileMenu.qml</file>
+        <file>DesktopApplication.qml</file>
+        <file>DesktopHeader.qml</file>
+        <file>DesktopSidebar.qml</file>
+        <file>MainView.qml</file>
+        <file>FontList.qml</file>
+        <file>HostInfos.qml</file>
+        <file>Settings.qml</file>
+        <file>About.qml</file>
+        <file>ThemeEngine.qml</file>
+        <file>WindowGeometrySaver.qml</file>
+        <file>ComponentsView.qml</file>
+        <file>services/SqlClient.qml</file>
+        <file>models/Model.qml</file>
+        <file>models/PlantModel.qml</file>
+        <file>models/ModelManager.qml</file>
+        <file>Constants.qml</file>
+        <file>DetailsBoard.qml</file>
+        <file>models/ClientModel.qml</file>
+        <file>models/SupplierModel.qml</file>
+        <file>models/WarehouseModel.qml</file>
+    </qresource>
+</RCC>
