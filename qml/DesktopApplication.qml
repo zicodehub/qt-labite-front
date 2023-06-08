@@ -97,7 +97,7 @@ ApplicationWindow {
         function onMainButtonClicked() { appContent.state = "MainView" }
         function onStoreButtonClicked() { appContent.state = "StoreView" }
         function onOrderButtonClicked() { appContent.state = "OrderView" }
-        function onGarageeButtonClicked() { appContent.state = "GarageView" }
+        function onGarageButtonClicked() { appContent.state = "GarageView" }
         function onSettingsButtonClicked() { appContent.state = "Settings" }
         function onAboutButtonClicked() { appContent.state = "About" }
     }
@@ -316,9 +316,20 @@ ApplicationWindow {
                 PropertyChanges { target: screenHostInfos; visible: false; enabled: false; }
                 PropertyChanges { target: screenSettings; visible: false; enabled: false; }
                 PropertyChanges { target: screenAbout; visible: false; enabled: false; }
-                PropertyChanges { target: screenStoreView; visible: true; enabled: true; focus: true; }
+                PropertyChanges { target: screenStoreView; visible: false; enabled: false; focus: false; }
+                PropertyChanges { target: screenOrderView; visible: true; enabled: true; focus: true }
+                PropertyChanges { target: screenGarageView; visible: false; enabled: false; focus: false; }
+            },
+            State {
+                name: "GarageView"
+                PropertyChanges { target: screenMainView; visible: false; enabled: true; focus: false; }
+                PropertyChanges { target: screenFontList; visible: false; enabled: false; }
+                PropertyChanges { target: screenHostInfos; visible: false; enabled: false; }
+                PropertyChanges { target: screenSettings; visible: false; enabled: false; }
+                PropertyChanges { target: screenAbout; visible: false; enabled: false; }
+                PropertyChanges { target: screenStoreView; visible: false; enabled: false; focus: false; }
                 PropertyChanges { target: screenOrderView; visible: false; enabled: false; focus: false }
-                PropertyChanges { target: screenGarageView; visible: false; enabled: false; focus: true; }
+                PropertyChanges { target: screenGarageView; visible: true; enabled: true; focus: true; }
             },
             State {
                 name: "FontList"
