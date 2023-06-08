@@ -62,7 +62,7 @@ ListModel {
             append(data[i])
         }
     }
-    onModelChanged: console.log("\n But my model changed")
+
     onReady: fetchAll()
     onCreated: function (data) {
         append(data)

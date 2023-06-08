@@ -5,7 +5,7 @@ import "../services"
 Model {
     id: control
     debug: true
-    tableName: "Warehouse01"
+    tableName: "Warehouse"
 
     function define() {
         return control.db.define(control.tableName, {

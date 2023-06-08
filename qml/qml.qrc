@@ -25,5 +25,8 @@
         <file>models/ClientModel.qml</file>
         <file>models/SupplierModel.qml</file>
         <file>models/WarehouseModel.qml</file>
+        <file>models/TypeArticleModel.qml</file>
+        <file>models/ArticleModel.qml</file>
+        <file>models/Tables.qml</file>
     </qresource>
 </RCC>

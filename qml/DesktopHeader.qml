@@ -1,6 +1,7 @@
 import QtQuick 2.15
 
 import ThemeEngine 1.0
+import "./components_generic"
 
 Rectangle {
     id: header
@@ -20,6 +21,7 @@ Rectangle {
     signal refreshButtonClicked()
 
     signal mainButtonClicked()
+    signal storeButtonClicked()
     signal settingsButtonClicked()
     signal aboutButtonClicked()
 
@@ -118,7 +120,7 @@ Rectangle {
             }
 
             animation: "rotate"
-            animationRunning: screenMainView.isLoading
+            animationRunning: true //screenMainView.isLoading
         }
 
         ////////////
@@ -191,10 +193,50 @@ Rectangle {
                 colorContent: Theme.colorHeaderContent
                 colorHighlight: Theme.colorHeaderHighlight
                 highlightMode: "background"
+                text: "Noeuds"
 
                 selected: (appContent.state === "MainView")
                 source: "qrc:/assets/icons_material/duotone-touch_app-24px.svg"
                 onClicked: mainButtonClicked()
+            }
+            DesktopHeaderItem {
+                id: menuStore
+                height: header.height
+
+                colorContent: Theme.colorHeaderContent
+                colorHighlight: Theme.colorHeaderHighlight
+                highlightMode: "background"
+                text: "Magasin"
+
+                selected: (appContent.state === "StoreView")
+                source: "qrc:/assets/icons/svg/store-24-hour.svg"
+                onClicked: storeButtonClicked()
+            }
+            DesktopHeaderItem {
+                id: menuOrders
+                height: header.height
+
+                colorContent: Theme.colorHeaderContent
+                colorHighlight: Theme.colorHeaderHighlight
+                highlightMode: "background"
+                text: "Commande"
+
+                selected: (appContent.state === "OrderView")
+                source: "qrc:/assets/icons/svg/store-24-hour.svg"
+                onClicked: storeButtonClicked()
+            }
+            DesktopHeaderItem {
+                id: menuGarage
+                height: header.height
+
+                colorContent: Theme.colorHeaderContent
+                colorHighlight: Theme.colorHeaderHighlight
+                highlightMode: "background"
+                text: "Garage"
+
+                selected: (appContent.state === "GarageView")
+                source: "qrc:/assets/icons/svg/store-24-hour.svg"
+                onClicked: storeButtonClicked()
             }
             DesktopHeaderItem {
                 id: menuSettings
