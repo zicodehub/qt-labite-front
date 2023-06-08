@@ -10,7 +10,7 @@ Model {
     function define() {
         return control.db.define(control.tableName, {
             name: control.db.String('X coord', {accept_null: true}),
-            typ_article: control.db.FK( "TypeArticle", {'references': "TypeArticle"}),
+            type_article: control.db.FK( "TypeArticle", {'references': "TypeArticle"}),
         });
     }
 }

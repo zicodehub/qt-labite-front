@@ -11,7 +11,7 @@ import "components_generic"
 Page {
     id: root
     background: Rectangle {
-        color: $Colors.gray200
+        color: $Colors.gray100
     }
 
     QtObject {

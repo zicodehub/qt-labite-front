@@ -28,5 +28,10 @@
         <file>models/TypeArticleModel.qml</file>
         <file>models/ArticleModel.qml</file>
         <file>models/Tables.qml</file>
+        <file>StoreView.qml</file>
+        <file>OrderView.qml</file>
+        <file>GarageView.qml</file>
+        <file>widgets/AddTypeArticle.qml</file>
+        <file>widgets/AddArticle.qml</file>
     </qresource>
 </RCC>

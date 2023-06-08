@@ -22,6 +22,8 @@ Rectangle {
 
     signal mainButtonClicked()
     signal storeButtonClicked()
+    signal orderButtonClicked()
+    signal garageButtonClicked()
     signal settingsButtonClicked()
     signal aboutButtonClicked()
 
@@ -223,7 +225,7 @@ Rectangle {
 
                 selected: (appContent.state === "OrderView")
                 source: "qrc:/assets/icons/svg/store-24-hour.svg"
-                onClicked: storeButtonClicked()
+                onClicked: orderButtonClicked()
             }
             DesktopHeaderItem {
                 id: menuGarage
@@ -236,7 +238,7 @@ Rectangle {
 
                 selected: (appContent.state === "GarageView")
                 source: "qrc:/assets/icons/svg/store-24-hour.svg"
-                onClicked: storeButtonClicked()
+                onClicked: garageButtonClicked()
             }
             DesktopHeaderItem {
                 id: menuSettings
