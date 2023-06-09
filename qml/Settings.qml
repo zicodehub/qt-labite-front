@@ -3,12 +3,15 @@ import QtQuick.Controls 2.15
 
 import ThemeEngine 1.0
 import "qrc:/js/UtilsNumber.js" as UtilsNumber
+import "components_generic"
 
 Item {
     id: settingsScreen
     width: 480
     height: 720
     anchors.fill: parent
+
+    property alias serverURL: _serverURL.text
 
     ////////////////////////////////////////////////////////////////////////////
 
@@ -213,6 +216,55 @@ Item {
                             anchors.fill: parent
                             onClicked: settingsManager.appTheme = "THEME_NIGHT"
                         }
+                    }
+                }
+            }
+
+            Rectangle {
+                height: 48
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                color: Theme.colorForeground
+
+                IconSvg {
+                    id: _imgServer
+                    width: 24
+                    height: 24
+                    anchors.left: parent.left
+                    anchors.leftMargin: screenPaddingLeft + 16
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    color: Theme.colorIcon
+                    source: 'qrc:/assets/icons/svg/server-security.svg'
+                }
+
+                Text{
+                    id: _middleText
+                    anchors.left: _imgServer.right
+                    anchors.leftMargin: 24
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    text: qsTr("Adresse du server")
+                    textFormat: Text.PlainText
+                    font.pixelSize: Theme.fontSizeContent
+                    font.bold: false
+                    color: Theme.colorText
+                    wrapMode: Text.WordWrap
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                TextFieldThemed {
+                    id: _serverURL
+                    text: "http://localhost:8080"
+                    anchors.right: parent.right
+                    anchors.rightMargin: 50
+
+                    anchors.left: _middleText.right
+                    anchors.leftMargin: 20
+                    anchors.verticalCenter: parent.verticalCenter
+                    validator: RegularExpressionValidator {
+                        regularExpression: /^(http:\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
                     }
                 }
             }

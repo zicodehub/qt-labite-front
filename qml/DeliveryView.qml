@@ -43,7 +43,7 @@ Page {
         }
         console.log("\n Gonna request")
 
-        Http.request("POST", "http://localhost:8080/recuit", data)
+        Http.request("POST",  screenSettings.serverURL+"/recuit", data)
         .then(function (response) {
             dataset = JSON.parse(response)
             deliveryView.isRunning = false

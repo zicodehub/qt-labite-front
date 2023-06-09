@@ -92,14 +92,48 @@ Page {
                 delegate: ItemDelegate {
                     required property var model
                     width: parent.width
-                    height: 40
+                    height: 60
 
-                    Label {
-                        text: "V"+model.id
-                        font.pixelSize: 24
-                        anchors.verticalCenter: parent.verticalCenter
-                        leftPadding: 10
+                    RowLayout {
+                        width: parent.width
+                        Column {
+                            width: parent
+                            leftPadding: 10
+                            anchors.verticalCenter: parent.verticalCenter
+                            Label {
+                                text: "V"+model.id
+                                font.pixelSize: 24
+                            }
+
+                            Label {
+                                text: "Cout: "+model.cost
+                                font.pixelSize: 14
+                            }
+
+                        }
+
+
+                        Column {
+                            width: parent
+                            leftPadding: 10
+                            anchors.verticalCenter: parent.verticalCenter
+
+                            Label {
+                                text: "Comprtiments: "+model.nb_compartments
+                                font.pixelSize: 14
+                            }
+
+                            Label {
+                                text: "Taille d'un compartiment: "+model.size_compartment
+                                font.pixelSize: 14
+                            }
+
+
+                        }
                     }
+
+
+
                 }
             }
         }
