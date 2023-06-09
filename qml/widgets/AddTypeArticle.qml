@@ -28,7 +28,7 @@ Drawer {
                 }
                 AndroidButtonIcon {
                     text: "Créer"
-                    source: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"
+                    source: "qrc:/assets/icons/svg/content-save-plus.svg"
                     onClicked: {
                         if(nameTypeArticle.text !== "") {
                             let res = $Models.typeArticle.sqlCreate({name: nameTypeArticle.text})

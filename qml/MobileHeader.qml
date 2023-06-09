@@ -183,10 +183,10 @@ Rectangle {
 
         model: ListModel {
             id: lmActionMenu
-            ListElement { t: "itm"; idx: 1; txt: "Action 1"; src: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"; }
-            ListElement { t: "itm"; idx: 2; txt: "Action 2"; src: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"; }
+            ListElement { t: "itm"; idx: 1; txt: "Action 1"; src: "qrc:/assets/icons/svg/content-save-plus.svg"; }
+            ListElement { t: "itm"; idx: 2; txt: "Action 2"; src: "qrc:/assets/icons/svg/content-save-plus.svg"; }
             ListElement { t: "sep"; }
-            ListElement { t: "itm"; idx: 3; txt: "Action 3"; src: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"; }
+            ListElement { t: "itm"; idx: 3; txt: "Action 3"; src: "qrc:/assets/icons/svg/content-save-plus.svg"; }
         }
 
         onMenuSelected: (index) => {

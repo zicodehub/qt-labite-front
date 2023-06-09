@@ -353,7 +353,7 @@ Item {
                 ButtonWireframeIcon {
                     fullColor: true
                     text: "ButtonWireframeIcon"
-                    source: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"
+                    source: "qrc:/assets/icons/svg/content-save-plus.svg"
                 }
 
                 ButtonWireframe {
@@ -363,7 +363,7 @@ Item {
                 ButtonWireframeIcon {
                     width: 128
                     text: "ButtonWireframeIcon"
-                    source: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"
+                    source: "qrc:/assets/icons/svg/content-save-plus.svg"
                 }
 
                 ButtonText {
@@ -385,21 +385,21 @@ Item {
                     RoundButtonIcon {
                         width: 48
                         height: 48
-                        source: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"
+                        source: "qrc:/assets/icons/svg/content-save-plus.svg"
                         background: true
                         highlightMode: "color"
                     }
                     RoundButtonIcon {
                         width: 48
                         height: 48
-                        source: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"
+                        source: "qrc:/assets/icons/svg/content-save-plus.svg"
                         background: false
                         highlightMode: "circle"
                     }
                     RoundButtonIcon {
                         width: 48
                         height: 48
-                        source: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"
+                        source: "qrc:/assets/icons/svg/content-save-plus.svg"
                         highlightMode: "color"
                         highlightColor: Theme.colorError
 
@@ -452,16 +452,16 @@ Item {
                     spacing: 16
 
                     RoundButtonIcon {
-                        source: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"
+                        source: "qrc:/assets/icons/svg/content-save-plus.svg"
                         highlightMode: "color"
                     }
                     RoundButtonIcon {
-                        source: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"
+                        source: "qrc:/assets/icons/svg/content-save-plus.svg"
                         background: true
                         highlightMode: "circle"
                     }
                     RoundButtonIcon {
-                        source: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"
+                        source: "qrc:/assets/icons/svg/content-save-plus.svg"
                         highlightMode: "color"
                         highlightColor: Theme.colorError
 
@@ -513,9 +513,9 @@ Item {
                     currentSelection: 1
                     model: ListModel {
                         id: lmSelectorMenuImg1
-                        ListElement { idx: 1; src: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"; sz: 20; }
-                        ListElement { idx: 2; src: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"; sz: 26; }
-                        ListElement { idx: 3; src: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"; sz: 32; }
+                        ListElement { idx: 1; src: "qrc:/assets/icons/svg/content-save-plus.svg"; sz: 20; }
+                        ListElement { idx: 2; src: "qrc:/assets/icons/svg/content-save-plus.svg"; sz: 26; }
+                        ListElement { idx: 3; src: "qrc:/assets/icons/svg/content-save-plus.svg"; sz: 32; }
                     }
 
                     onMenuSelected: (index) => {
@@ -549,9 +549,9 @@ Item {
                     currentSelection: 1
                     model: ListModel {
                         id: lmSelectorMenuImg2
-                        ListElement { idx: 1; src: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"; sz: 20; }
-                        ListElement { idx: 2; src: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"; sz: 26; }
-                        ListElement { idx: 3; src: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"; sz: 32; }
+                        ListElement { idx: 1; src: "qrc:/assets/icons/svg/content-save-plus.svg"; sz: 20; }
+                        ListElement { idx: 2; src: "qrc:/assets/icons/svg/content-save-plus.svg"; sz: 26; }
+                        ListElement { idx: 3; src: "qrc:/assets/icons/svg/content-save-plus.svg"; sz: 32; }
                     }
 
                     onMenuSelected: (index) => {
@@ -749,7 +749,7 @@ Item {
                 AndroidButtonIcon {
                     anchors.verticalCenter: parent.verticalCenter
                     text: "AndroidButtonIcon"
-                    source: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"
+                    source: "qrc:/assets/icons/svg/content-save-plus.svg"
                 }
 
                 AndroidTextField {
@@ -849,7 +849,7 @@ Item {
                 ButtonIconThemed {
                     anchors.verticalCenter: parent.verticalCenter
                     text: "ButtonIconThemed"
-                    source: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"
+                    source: "qrc:/assets/icons/svg/content-save-plus.svg"
                 }
 
                 RoundButtonThemed {
@@ -859,7 +859,7 @@ Item {
 
                 RoundButtonIconThemed {
                     anchors.verticalCenter: parent.verticalCenter
-                    source: "qrc:/assets/icons_material/baseline-accessibility-24px.svg"
+                    source: "qrc:/assets/icons/svg/content-save-plus.svg"
                 }
 
                 SpinBoxThemed {

@@ -86,6 +86,8 @@ T.ComboBox {
         }
 
         contentItem: Text {
+            property var _model: model
+            property var _modelData: modelData
             leftPadding: control.leftPadding
             text: control.textRole
                 ? (Array.isArray(control.model) ? modelData[control.textRole] : model[control.textRole])

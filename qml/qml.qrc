@@ -33,5 +33,7 @@
         <file>GarageView.qml</file>
         <file>widgets/AddTypeArticle.qml</file>
         <file>widgets/AddArticle.qml</file>
+        <file>widgets/AddVehicule.qml</file>
+        <file>models/VehiculeModel.qml</file>
     </qresource>
 </RCC>
