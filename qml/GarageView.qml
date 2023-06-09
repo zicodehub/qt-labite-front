@@ -88,7 +88,7 @@ Page {
                 Layout.fillHeight: true
                 spacing: 5
 
-                model: $Models.vehicule
+                model: $Models.vehicules
                 delegate: ItemDelegate {
                     required property var model
                     width: parent.width

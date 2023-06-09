@@ -7,6 +7,7 @@ import ThemeEngine 1.0
 T.ComboBox {
     id: control
 
+    property string prefix: ""
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
@@ -34,7 +35,7 @@ T.ComboBox {
     ////////////////////////////////////////////////////////////////////////////
 
     contentItem: Text {
-        text: control.displayText
+        text: (control.displayText && control.prefix ? control.prefix : "" ) + control.displayText
         textFormat: Text.PlainText
 
         font: control.font
@@ -86,12 +87,10 @@ T.ComboBox {
         }
 
         contentItem: Text {
-            property var _model: model
-            property var _modelData: modelData
             leftPadding: control.leftPadding
-            text: control.textRole
+            text: (control.prefix ?? "" ) + (control.textRole
                 ? (Array.isArray(control.model) ? modelData[control.textRole] : model[control.textRole])
-                : modelData
+                : modelData)
             color: highlighted ? "black" : Theme.colorSubText
             font.pixelSize: Theme.fontSizeComponent
             elide: Text.ElideRight

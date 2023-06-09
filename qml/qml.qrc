@@ -35,5 +35,7 @@
         <file>widgets/AddArticle.qml</file>
         <file>widgets/AddVehicule.qml</file>
         <file>models/VehiculeModel.qml</file>
+        <file>models/OrderModel.qml</file>
+        <file>widgets/AddOrder.qml</file>
     </qresource>
 </RCC>

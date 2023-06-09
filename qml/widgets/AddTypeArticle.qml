@@ -31,7 +31,7 @@ Drawer {
                     source: "qrc:/assets/icons/svg/content-save-plus.svg"
                     onClicked: {
                         if(nameTypeArticle.text !== "") {
-                            let res = $Models.typeArticle.sqlCreate({name: nameTypeArticle.text})
+                            let res = $Models.typeArticles.sqlCreate({name: nameTypeArticle.text})
                             if(res) control.close()
                         }
                     }

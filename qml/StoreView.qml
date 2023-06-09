@@ -62,7 +62,7 @@ Page {
                 Layout.fillHeight: true
                 spacing: 5
 
-                model: $Models.typeArticle
+                model: $Models.typeArticles
                 delegate: ItemDelegate {
                     required property var model
                     width: parent.width
@@ -106,7 +106,7 @@ Page {
                 Layout.fillHeight: true
                 spacing: 5
 
-                model: $Models.article
+                model: $Models.articles
                 delegate: ItemDelegate {
                     required property var model
                     width: parent.width

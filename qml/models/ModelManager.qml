@@ -12,14 +12,15 @@ import "qrc:/js/ORM.js" as QuickModel
 Item {
     id: _relay
 
-    property var quickModelDB: new QuickModel.QMDatabase('testApp000010', '1.0')
+    property var quickModelDB: new QuickModel.QMDatabase('testApp000015', '1.0')
 
     property var clients: _clientModel
     property var suppliers: _supplierModel
     property var warehouses: _warehouseModel
-    property var typeArticle: _typeArticleModel
-    property var article: _articleModel
-    property var vehicule: _vehiculeModel
+    property var typeArticles: _typeArticleModel
+    property var articles: _articleModel
+    property var vehicules: _vehiculeModel
+    property var orders: _orderModel
 
     ////// MODEL BEGIN ->
     ClientModel {
@@ -52,9 +53,14 @@ Item {
         db: quickModelDB
     }
 
+    OrderModel {
+        id: _orderModel
+        db: quickModelDB
+    }
+
     function init() {
 
-        Promise.all([clients.init(), suppliers.init(), warehouses.init(), typeArticle.init(), article.init(), vehicule.init()]).then(function (rs) {
+        Promise.all([clients.init(), suppliers.init(), warehouses.init(), typeArticles.init(), articles.init(), vehicules.init(), orders.init()]).then(function (rs) {
             console.info("[+] All table ready")
         }).catch(function (rs) {
             console.error("Something happen when loading DB tables => ", rs)

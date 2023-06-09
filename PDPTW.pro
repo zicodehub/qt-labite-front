@@ -32,6 +32,10 @@ include(src/thirdparty/SingleApplication/SingleApplication.pri)
 # QmlRadialBar
 include(src/thirdparty/QmlRadialBar/QmlRadialBar.pri)
 
+
+# SortFilterProxyModel
+#include(src/thirdparty/SortFilterProxyModel/SortFilterProxyModel.pri)
+
 ## QuickORM
 #include(src/thirdparty/QuickModel/QuickModel.pri)
 

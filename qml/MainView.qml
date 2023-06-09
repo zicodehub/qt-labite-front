@@ -7,6 +7,7 @@ import "qrc:/js/UtilsString.js" as UtilsString
 import "qrc:/js/UtilsObject.js" as UtilsObject
 import "qrc:/js/Http.js" as Http
 import "components_generic"
+import "widgets"
 
 Page {
     id: root
@@ -35,6 +36,17 @@ Page {
 
     property string paintingNodeType: ""
 
+    AddOrder {
+        id: addOrderDrawer
+
+        width: parent.width / 1.5
+        height: parent.height
+        edge: Qt.LeftEdge
+        dim: true
+        modal: true
+        interactive: true
+    }
+
     Canvas {
         anchors {
             top: parent.top
@@ -59,6 +71,10 @@ Page {
                     text: "C"+model.id
                     anchors.centerIn: parent
                 }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: addOrderDrawer.show(model, "client")
+                }
 //                Text {
 //                       color: handler.active ? "darkgreen" : "black"
 //                       text: handler.centroid.position.x.toFixed(1) + "," + handler.centroid.position.y.toFixed(1)
@@ -72,6 +88,7 @@ Page {
             model: $Models.suppliers
             delegate: Rectangle {
                 required property var model
+                required property int index
                 x: model.x - width/2
                 y: model.y - height/2
                 width: 30
@@ -82,6 +99,10 @@ Page {
                 Label {
                     text: "F"+model.id
                     anchors.centerIn: parent
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: addOrderDrawer.show(model, "supplier")
                 }
             }
         }
@@ -103,7 +124,7 @@ Page {
             }
         }
         MouseArea {
-            anchors.fill: parent
+            anchors.fill: paintingNodeType === "" ? null : parent
             onClicked: function(event) {
                 if(root.paintingNodeType === "C") {
                     $Models.clients.sqlCreate({x: event.x, y: event.y})
@@ -116,7 +137,7 @@ Page {
                 } else {
                     console.log("NOne")
                 }
-                console.log("selected ", root.paintingNodeType)
+                console.log("selected ", root.paintingNodeType,  paintingNodeType === "" )
             }
         }
     }

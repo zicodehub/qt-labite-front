@@ -116,7 +116,7 @@ Drawer {
                     source: "qrc:/assets/icons/svg/content-save-plus.svg"
                     onClicked: {
                         if(comboBoxNbCompartments.value > 0 && comboBoxSizeCompartments.value > 0 && comboBoxCostVehicule.value > 0 && comboBoxWarehouse.currentIndex > -1) {
-                            let res = $Models.vehicule.sqlCreate({
+                            let res = $Models.vehicules.sqlCreate({
                                                                      nb_compartments: comboBoxNbCompartments.value,
                                                                      size_compartment: comboBoxSizeCompartments.value,
                                                                      cost: comboBoxCostVehicule.value,

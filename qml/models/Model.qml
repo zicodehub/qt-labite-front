@@ -27,6 +27,7 @@ ListModel {
         return new Promise(function(resolve, reject) {
             try {
                 control.model = control.define()
+                console.log(control.model)
                 resolve()
                 ready()
             } catch(e) {
@@ -61,6 +62,12 @@ ListModel {
         for(let i=0; i< data.length; i++) {
             append(data[i])
         }
+    }
+    function sqlFilter(closes) {
+        return control.model.filter(closes).all()
+    }
+    function sqlGet(pk) {
+        return control.model.filter({id: pk}).all()[0]
     }
 
     onReady: fetchAll()

@@ -25,7 +25,7 @@ Drawer {
                 id: comboBoxAppTheme
                 Layout.fillWidth: true
 //                currentIndex: 0
-                model: $Models.typeArticle
+                model: $Models.typeArticles
                 textRole: 'name'
             }
 
@@ -43,7 +43,7 @@ Drawer {
                     onClicked: {
                         if(nameArticle.text !== "" && comboBoxAppTheme.currentIndex > -1) {
                             console.log()
-                            let res = $Models.article.sqlCreate({name: nameArticle.text, type_article: $Models.typeArticle.get(comboBoxAppTheme.currentIndex).id})
+                            let res = $Models.articles.sqlCreate({name: nameArticle.text, type_article: $Models.typeArticles.get(comboBoxAppTheme.currentIndex).id})
                             if(res) control.close()
                         }
                     }
