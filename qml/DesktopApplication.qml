@@ -98,6 +98,7 @@ ApplicationWindow {
         function onStoreButtonClicked() { appContent.state = "StoreView" }
         function onOrderButtonClicked() { appContent.state = "OrderView" }
         function onGarageButtonClicked() { appContent.state = "GarageView" }
+        function onDeliveryButtonClicked() { appContent.state = "DeliveryView" }
         function onSettingsButtonClicked() { appContent.state = "Settings" }
         function onAboutButtonClicked() { appContent.state = "About" }
     }
@@ -257,6 +258,11 @@ ApplicationWindow {
             id: screenGarageView
         }
 
+        DeliveryView {
+            anchors.fill: parent
+            id: screenDeliveryView
+        }
+
         FontList {
             anchors.fill: parent
             id: screenFontList
@@ -297,6 +303,7 @@ ApplicationWindow {
                 PropertyChanges { target: screenStoreView; visible: false; enabled: true; focus: false; }
                 PropertyChanges { target: screenOrderView; visible: false; enabled: false; focus: false }
                 PropertyChanges { target: screenGarageView; visible: false; enabled: false; focus: false; }
+                 PropertyChanges { target: screenDeliveryView; visible: false; enabled: false; focus: false; }
             },
             State {
                 name: "StoreView"
@@ -308,6 +315,7 @@ ApplicationWindow {
                 PropertyChanges { target: screenStoreView; visible: true; enabled: true; focus: true; }
                 PropertyChanges { target: screenOrderView; visible: false; enabled: false; focus: false }
                 PropertyChanges { target: screenGarageView; visible: false; enabled: false; focus: false; }
+                PropertyChanges { target: screenDeliveryView; visible: false; enabled: false; focus: false; }
             },
             State {
                 name: "OrderView"
@@ -319,6 +327,7 @@ ApplicationWindow {
                 PropertyChanges { target: screenStoreView; visible: false; enabled: false; focus: false; }
                 PropertyChanges { target: screenOrderView; visible: true; enabled: true; focus: true }
                 PropertyChanges { target: screenGarageView; visible: false; enabled: false; focus: false; }
+                PropertyChanges { target: screenDeliveryView; visible: false; enabled: false; focus: false; }
             },
             State {
                 name: "GarageView"
@@ -330,6 +339,19 @@ ApplicationWindow {
                 PropertyChanges { target: screenStoreView; visible: false; enabled: false; focus: false; }
                 PropertyChanges { target: screenOrderView; visible: false; enabled: false; focus: false }
                 PropertyChanges { target: screenGarageView; visible: true; enabled: true; focus: true; }
+                PropertyChanges { target: screenDeliveryView; visible: false; enabled: false; focus: false; }
+            },
+            State {
+                name: "DeliveryView"
+                PropertyChanges { target: screenMainView; visible: false; enabled: true; focus: false; }
+                PropertyChanges { target: screenFontList; visible: false; enabled: false; }
+                PropertyChanges { target: screenHostInfos; visible: false; enabled: false; }
+                PropertyChanges { target: screenSettings; visible: false; enabled: false; }
+                PropertyChanges { target: screenAbout; visible: false; enabled: false; }
+                PropertyChanges { target: screenStoreView; visible: false; enabled: false; focus: false; }
+                PropertyChanges { target: screenOrderView; visible: false; enabled: false; focus: false }
+                PropertyChanges { target: screenGarageView; visible: true; enabled: true; focus: true; }
+                PropertyChanges { target: screenDeliveryView; visible: true; enabled: true; focus: true; }
             },
             State {
                 name: "FontList"
@@ -341,6 +363,7 @@ ApplicationWindow {
                 PropertyChanges { target: screenStoreView; visible: false; enabled: true; focus: false; }
                 PropertyChanges { target: screenOrderView; visible: false; enabled: false; focus: false }
                 PropertyChanges { target: screenGarageView; visible: false; enabled: false; focus: false; }
+                PropertyChanges { target: screenDeliveryView; visible: false; enabled: false; focus: false; }
             },
             State {
                 name: "HostInfos"
@@ -352,6 +375,7 @@ ApplicationWindow {
                 PropertyChanges { target: screenStoreView; visible: false; enabled: true; focus: false; }
                 PropertyChanges { target: screenOrderView; visible: false; enabled: false; focus: false }
                 PropertyChanges { target: screenGarageView; visible: false; enabled: false; focus: false; }
+                PropertyChanges { target: screenDeliveryView; visible: false; enabled: false; focus: false; }
             },
             State {
                 name: "Settings"
@@ -363,6 +387,7 @@ ApplicationWindow {
                 PropertyChanges { target: screenStoreView; visible: false; enabled: true; focus: false; }
                 PropertyChanges { target: screenOrderView; visible: false; enabled: false; focus: false }
                 PropertyChanges { target: screenGarageView; visible: false; enabled: false; focus: false; }
+                PropertyChanges { target: screenDeliveryView; visible: false; enabled: false; focus: false; }
             },
             State {
                 name: "About"
@@ -374,6 +399,7 @@ ApplicationWindow {
                 PropertyChanges { target: screenStoreView; visible: false; enabled: true; focus: false; }
                 PropertyChanges { target: screenOrderView; visible: false; enabled: false; focus: false }
                 PropertyChanges { target: screenGarageView; visible: false; enabled: false; focus: false; }
+                PropertyChanges { target: screenDeliveryView; visible: false; enabled: false; focus: false; }
             }
         ]
     }

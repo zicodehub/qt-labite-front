@@ -26,6 +26,7 @@ Rectangle {
     signal garageButtonClicked()
     signal settingsButtonClicked()
     signal aboutButtonClicked()
+    signal deliveryButtonClicked()
 
     function setActiveMenu() {
         //
@@ -114,15 +115,15 @@ Rectangle {
             tooltipText: text
 
             property bool isclicked: false
-            onClicked: {
-                isclicked = !isclicked
-                screenMainView.fetchData({shouldClear: true})
-                .then(function (){ isclicked = false })
-                .catch(function (){ isclicked = false })
-            }
+//            onClicked: {
+//                isclicked = !isclicked
+//                screenMainView.fetchData({shouldClear: true})
+//                .then(function (){ isclicked = false })
+//                .catch(function (){ isclicked = false })
+//            }
 
             animation: "rotate"
-            animationRunning: true //screenMainView.isLoading
+            animationRunning: screenDeliveryView.isRunning
         }
 
         ////////////
@@ -239,6 +240,19 @@ Rectangle {
                 selected: (appContent.state === "GarageView")
                 source: "qrc:/assets/icons/svg/store-24-hour.svg"
                 onClicked: garageButtonClicked()
+            }
+            DesktopHeaderItem {
+                id: menuDelivery
+                height: header.height
+
+                colorContent: Theme.colorHeaderContent
+                colorHighlight: Theme.colorHeaderHighlight
+                highlightMode: "background"
+                text: "Livraisons"
+
+                selected: (appContent.state === "DeliveryView")
+                source: "qrc:/assets/icons/svg/store-24-hour.svg"
+                onClicked: deliveryButtonClicked()
             }
             DesktopHeaderItem {
                 id: menuSettings

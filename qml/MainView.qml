@@ -46,11 +46,27 @@ Page {
         modal: true
         interactive: true
     }
+    Row {
+        id: head
+        width: parent.width
+        spacing: 20
+        leftPadding: 20
+        Label {
+            text: $Models.clients.count + " clients"
+        }
+        Label {
+            text: $Models.suppliers.count + " fournisseurs"
+        }
+        Label {
+            text: $Models.warehouses.count + " dépots"
+        }
+    }
 
     Canvas {
         anchors {
-            top: parent.top
+            top: head.bottom
             bottom: parent.bottom
+            bottomMargin: 20
             left: parent.left
             right: areaSelector.left
             rightMargin: 10

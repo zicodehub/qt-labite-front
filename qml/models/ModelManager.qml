@@ -12,7 +12,7 @@ import "qrc:/js/ORM.js" as QuickModel
 Item {
     id: _relay
 
-    property var quickModelDB: new QuickModel.QMDatabase('testApp000015', '1.0')
+    property var quickModelDB: new QuickModel.QMDatabase('testApp000020', '1.0')
 
     property var clients: _clientModel
     property var suppliers: _supplierModel

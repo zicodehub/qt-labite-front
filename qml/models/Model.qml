@@ -62,6 +62,8 @@ ListModel {
         for(let i=0; i< data.length; i++) {
             append(data[i])
         }
+    
+
     }
     function sqlFilter(closes) {
         return control.model.filter(closes).all()
