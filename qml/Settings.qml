@@ -11,8 +11,9 @@ Item {
     height: 720
     anchors.fill: parent
 
-    property alias serverURL: _serverURL.text
 
+    property alias serverURL: _serverURL.text
+    property alias displayPayload: switchPayload.checked
     ////////////////////////////////////////////////////////////////////////////
 
     Flickable {
@@ -258,7 +259,7 @@ Item {
                     id: _serverURL
                     text: "http://localhost:8080"
                     anchors.right: parent.right
-                    anchors.rightMargin: 50
+                    anchors.rightMargin: 30
 
                     anchors.left: _middleText.right
                     anchors.leftMargin: 20
@@ -266,6 +267,50 @@ Item {
                     validator: RegularExpressionValidator {
                         regularExpression: /^(http:\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
                     }
+                }
+            }
+
+            Item {
+                id: elementDisplayNodePayload
+                height: 48
+                anchors.left: parent.left
+                anchors.leftMargin: screenPaddingLeft
+                anchors.right: parent.right
+                anchors.rightMargin: screenPaddingRight
+
+                IconSvg {
+                    id: _imgPayload
+                    width: 24
+                    height: 24
+                    anchors.left: parent.left
+                    anchors.leftMargin: 16
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    color: Theme.colorIcon
+                    source: "qrc:/assets/icons_material/duotone-style-24px.svg"
+                }
+
+                Text {
+                    id: textDisplayPayload
+                    height: 40
+                    anchors.left: _imgPayload.right
+                    anchors.leftMargin: 24
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    text: qsTr("Montrer les charges transportées")
+                    textFormat: Text.PlainText
+                    font.pixelSize: Theme.fontSizeContent
+                    color: Theme.colorText
+                    wrapMode: Text.WordWrap
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                SwitchThemedDesktop {id: switchPayload
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 30
+                    text: "Switch"
+                    checked: settingsScreen.displayPayload
                 }
             }
 

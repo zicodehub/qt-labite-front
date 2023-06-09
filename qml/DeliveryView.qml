@@ -147,7 +147,7 @@ Page {
                         }
                     }
                     Label {
-                        text: dataset.distance+ "km"
+                        text: (dataset.distance/1000).toFixed(4) + "km"
                         font {
                             pixelSize: 16
                             weight: Font.Light
@@ -276,15 +276,16 @@ Page {
                             model: dataset.trajet[modelData]
                             Rectangle {
                                 required property var modelData
-                                width: 30
+                                property var node: JSON.parse(modelData)
+                                width: screenSettings.displayPayload ? 50 : 30
                                 height: width
                                 radius: height/2
                                 color: $Colors.black
                                 Label {
                                     anchors.centerIn: parent
-                                    text: JSON.parse(modelData)?.name
+                                    text: node?.name + ( screenSettings.displayPayload ? ` (${node.mvt?? 0})` : "")
                                     font {
-                                        weight: Font.Light
+                                        weight: Font.DemiBold
                                     }
                                     color: $Colors.white
                                 }

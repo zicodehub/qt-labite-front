@@ -99,14 +99,13 @@ Page {
                         Column {
                             width: parent
                             leftPadding: 10
-                            anchors.verticalCenter: parent.verticalCenter
                             Label {
                                 text: "V"+model.id
                                 font.pixelSize: 24
                             }
 
                             Label {
-                                text: "Cout: "+model.cost
+                                text: "Cout: "+model.cost+" unités/km"
                                 font.pixelSize: 14
                             }
 
@@ -116,10 +115,9 @@ Page {
                         Column {
                             width: parent
                             leftPadding: 10
-                            anchors.verticalCenter: parent.verticalCenter
 
                             Label {
-                                text: "Comprtiments: "+model.nb_compartments
+                                text: "Compartiments: "+model.nb_compartments
                                 font.pixelSize: 14
                             }
 

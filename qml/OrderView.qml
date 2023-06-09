@@ -15,6 +15,9 @@ Page {
         color: $Colors.gray100
     }
 
+    leftPadding: 10
+    rightPadding: 10
+
     RowLayout {
         id: tableHeader
         width: parent.width
