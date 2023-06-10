@@ -87,6 +87,18 @@ Page {
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
+
+        Rectangle {
+            width: 1
+            Layout.fillHeight: true
+            color: $Colors.white
+        }
+
+        Rectangle {
+            Layout.preferredWidth: 30
+            Layout.fillHeight: true
+            color: Theme.colorPrimary
+        }
     }
 
 
@@ -103,10 +115,8 @@ Page {
         }
         delegate: Container {
             width: parent.width
-            height: 30
+            height: 40
             background: Rectangle {
-                color: index % 2 == 0 ? 'red' : 'green'
-
                 Rectangle {
                     anchors.bottom: parent.bottom
                     height: 1
@@ -170,6 +180,29 @@ Page {
                 Label {
                     text: model.qty_fixed
                     anchors.verticalCenter: parent.verticalCenter
+                }
+            }
+
+            Rectangle {
+                width: 1
+                Layout.fillHeight: true
+                color: $Colors.white
+            }
+
+            ClipRect {
+                Layout.preferredWidth: 30
+                Layout.preferredHeight: Layout.preferredWidth
+                radius: height/2
+                ButtonWireframeIcon {
+                    anchors.centerIn: parent
+                    source: 'qrc:/assets/icons/svg/delete-forever.svg'
+                    fullColor: true
+                    primaryColor: $Colors.gray200
+                    fulltextColor: $Colors.red400
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: $Models.orders.sqlRemoveFromListIndex(index)
+                    }
                 }
             }
         }

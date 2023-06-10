@@ -37,7 +37,7 @@ Drawer {
     }
 
     function handleClose() {
-        callback(function () {
+        control.callback(function () {
             control.close()
         })()
     }

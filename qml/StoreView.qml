@@ -102,6 +102,7 @@ Page {
             }
 
             ListView {
+                id: listViewOrders
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 spacing: 5
@@ -109,7 +110,8 @@ Page {
                 model: $Models.articles
                 delegate: ItemDelegate {
                     required property var model
-                    width: parent.width
+                    required property int index
+                    width: listViewOrders.width
                     height: 40
 
                     Label {
@@ -117,6 +119,28 @@ Page {
                         font.pixelSize: 24
                         anchors.verticalCenter: parent.verticalCenter
                         leftPadding: 10
+                    }
+
+                    ClipRect {
+                        width: 30
+                        height: width
+                        radius: height/2
+                        anchors {
+                            right: parent.right
+                            rightMargin: 20
+                            verticalCenter: parent.verticalCenter
+                        }
+                        ButtonWireframeIcon {
+                            anchors.centerIn: parent
+                            source: 'qrc:/assets/icons/svg/delete-forever.svg'
+                            fullColor: true
+                            primaryColor: $Colors.gray200
+                            fulltextColor: $Colors.red400
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: $Models.articles.sqlRemoveFromListIndex(index)
+                            }
+                        }
                     }
                 }
             }
