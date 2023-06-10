@@ -7,6 +7,12 @@ import "qrc:/qml"
 Drawer {
     id: control
 
+    onClosed: {
+        nameArticle.text = ""
+        if(comboBoxAppTheme.currentIndex > -1) {
+            comboBoxAppTheme.currentIndex = 0
+        }
+    }
 
     Item {
         anchors.fill: parent

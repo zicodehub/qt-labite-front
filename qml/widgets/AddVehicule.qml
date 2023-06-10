@@ -7,6 +7,14 @@ import "qrc:/qml"
 Drawer {
     id: control
 
+    onClosed: {
+        comboBoxNbCompartments.value = 50
+        comboBoxSizeCompartments.value = 10
+        comboBoxCostVehicule.value = 60
+        if(comboBoxWarehouse.currentIndex > -1) {
+            comboBoxWarehouse.currentIndex = 0
+        }
+    }
 
     Item {
         anchors.fill: parent

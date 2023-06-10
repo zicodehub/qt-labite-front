@@ -18,6 +18,7 @@ ListModel {
     signal createds(var id)
     signal updated(var id)
     signal deleted(var id)
+    signal deletedAll()
 
     function define() {
         throw "This function must be overriden"
@@ -71,9 +72,34 @@ ListModel {
     function sqlGet(pk) {
         return control.model.filter({id: pk}).all()[0]
     }
+    function sqlRemove(pk) {
+        let res = control.model.filter({id: pk})
+        if(res.all().length === 0) {
+            control.model.filter({id: pk}).remove()
+            deleted(pk)
+            return true
+        }
+        return false
+    }
+    function sqlRemoveAll(pk) {
+        control.model.remove()
+        deletedAll()
+    }
 
     onReady: fetchAll()
     onCreated: function (data) {
         append(data)
+    }
+    onDeletedAll: {
+        control.clear()
+        control.fetchAll()
+    }
+    onDeleted: function (id){
+        for(let i=0; i<control.count; i++) {
+            if(control.get(i).id === id) {
+                control.remove(i)
+                break
+            }
+        }
     }
 }

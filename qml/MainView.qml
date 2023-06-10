@@ -76,6 +76,7 @@ Page {
             model: $Models.clients
             delegate: Rectangle {
                 required property var model
+                required property int index
                 x: model.x - width/2
                 y: model.y - height/2
                 width: 30
@@ -89,7 +90,7 @@ Page {
                 }
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: addOrderDrawer.show(model, "client")
+                    onClicked: addOrderDrawer.show(model, "client", index)
                 }
 //                Text {
 //                       color: handler.active ? "darkgreen" : "black"
@@ -118,7 +119,7 @@ Page {
                 }
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: addOrderDrawer.show(model, "supplier")
+                    onClicked: addOrderDrawer.show(model, "supplier", index)
                 }
             }
         }

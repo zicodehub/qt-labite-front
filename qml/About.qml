@@ -153,7 +153,7 @@ Item {
                     anchors.rightMargin: 0
                     anchors.verticalCenter: desc.verticalCenter
 
-                    text: qsTr("Cette application permet d'avoir une globale sur les plantes associées associées à l'application Blume !")
+                    text: qsTr("Pickup and Delivery with Time Window")
                     textFormat: Text.PlainText
                     wrapMode: Text.WordWrap
                     color: Theme.colorText

@@ -28,6 +28,10 @@ Item {
             id: column
             anchors.left: parent.left
             anchors.right: parent.right
+            anchors {
+                leftMargin: 20
+                rightMargin: 20
+            }
 
             topPadding: 12
             bottomPadding: 12
@@ -311,6 +315,66 @@ Item {
                     anchors.rightMargin: 30
                     text: "Switch"
                     checked: settingsScreen.displayPayload
+                }
+            }
+
+            Rectangle {
+                height: 48
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                color: Theme.colorForeground
+
+                IconSvg {
+                    id: iconWipeData
+                    width: 24
+                    height: 24
+                    anchors.left: parent.left
+                    anchors.leftMargin: screenPaddingLeft + 16
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    color: Theme.colorIcon
+                    source: 'qrc:/assets/icons/svg/server-security.svg'
+                }
+
+                Text{
+                    id: textWipeData
+                    anchors.left: iconWipeData.right
+                    anchors.leftMargin: 24
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    text: qsTr("Supprimer toutes les données")
+                    textFormat: Text.PlainText
+                    font.pixelSize: Theme.fontSizeContent
+                    font.bold: false
+                    color: Theme.colorText
+                    wrapMode: Text.WordWrap
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                AndroidButtonIcon {
+                    text: "Supprimer toutes"
+                    source: 'qrc:/assets/icons/svg/delete-forever-outline.svg'
+                    primaryColor: $Colors.white
+                    backgroundItem.color: $Colors.red400
+                    anchors {
+                        right: parent.right
+                        rightMargin: 30
+
+                        top: parent.top
+                        bottom: parent.bottom
+                        margins: 5
+                    }
+
+                    onClicked: {
+                        $Models.orders.sqlRemoveAll()
+                        $Models.vehicules.sqlRemoveAll()
+                        $Models.warehouses.sqlRemoveAll()
+                        $Models.articles.sqlRemoveAll()
+                        $Models.typeArticles.sqlRemoveAll()
+                        $Models.clients.sqlRemoveAll()
+                        $Models.suppliers.sqlRemoveAll()
+                    }
                 }
             }
 

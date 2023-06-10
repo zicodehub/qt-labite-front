@@ -7,6 +7,10 @@ import "qrc:/qml"
 Drawer {
     id: control
 
+    onClosed: {
+        nameTypeArticle.text = ""
+    }
+
     Item {
         anchors.fill: parent
         ColumnLayout {

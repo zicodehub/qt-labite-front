@@ -29,6 +29,7 @@ T.Button {
 
     // colors
     property string primaryColor: Theme.colorPrimary
+    property alias backgroundItem: shadowarea
 
     ////////////////////////////////////////////////////////////////////////////
 

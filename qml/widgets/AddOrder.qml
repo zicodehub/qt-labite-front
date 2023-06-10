@@ -12,16 +12,20 @@ Drawer {
     property var currentNode: null
     property bool isFormValid: comboBoxSupplier.currentIndex > -1 && comboBoxClient.currentIndex > -1 && comboBoxArticle.currentIndex > -1 && qtyOrder.text != ""
 
-    property var show: function(node, nodeType) {
+    property var show: function(node, nodeType, nodeIndex) {
         console.log(" Likc show", )
-        var result
+        var results
         if(nodeType === 'client') {
-            result = $Models.orders.sqlFilter({client: node.id})
+            results = $Models.orders.sqlFilter({client: node.id})
+            comboBoxClient.currentIndex = nodeIndex
+            comboBoxClient.enabled = false
         } else if(nodeType === 'supplier') {
-            result = $Models.orders.sqlFilter({supplier: node.id})
+            results = $Models.orders.sqlFilter({supplier: node.id})
+            comboBoxSupplier.currentIndex = nodeIndex
+            comboBoxSupplier.enabled = false
         } else return
-        for (let i=0; i< result.length; i++) {
-            proxyModel.append(result[i])
+        for (let i=0; i< results.length; i++) {
+            proxyModel.append(results[i])
         }
         control.currentNode = node
         open()
@@ -34,8 +38,14 @@ Drawer {
         currentNode = null
         isEditing = true
         comboBoxSupplier.currentIndex = -1
+        comboBoxSupplier.enabled = true
+
         comboBoxClient.currentIndex = -1
+        comboBoxClient.enabled = true
+
         comboBoxArticle.currentIndex = -1
+        comboBoxArticle.enabled = true
+
         qtyOrder.text = ""
         proxyModel.clear()
     }
@@ -242,7 +252,7 @@ Drawer {
             bottom: parent.bottom
         }
         delegate: Container {
-            width: parent.width
+            width: ordersListView.width
             height: 30
             background: Rectangle {
                 color: index % 2 == 0 ? 'red' : 'green'

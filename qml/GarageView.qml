@@ -35,6 +35,7 @@ Page {
             Layout.fillHeight: true
 
             ListView {
+                id: listViewWarehouses
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
@@ -48,7 +49,7 @@ Page {
                 delegate: ItemDelegate {
                     required property var model
                     height: 40
-                    width: parent.width
+                    width: listViewWarehouses.width
 
                     Label {
                         text: "D"+model.id
@@ -84,6 +85,7 @@ Page {
             }
 
             ListView {
+                id: listViewVehicules
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 spacing: 5
@@ -95,7 +97,7 @@ Page {
                     height: 60
 
                     RowLayout {
-                        width: parent.width
+                        width: listViewVehicules.width
                         Column {
                             width: parent
                             leftPadding: 10
