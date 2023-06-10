@@ -32,6 +32,8 @@ Drawer {
                 SpinBoxThemed {
                     id: comboBoxNbCompartments
                     width: 300
+                    from: 0
+                    to: 1000000
                 }
             }
 
@@ -44,6 +46,8 @@ Drawer {
                 SpinBoxThemed {
                     id: comboBoxSizeCompartments
                     width: 300
+                    from: 0
+                    to: 1000000
                 }
             }
 
@@ -56,9 +60,8 @@ Drawer {
                 SpinBoxThemed {
                     id: comboBoxCostVehicule
                     width: 300
-                    validator: IntValidator {
-                        bottom: 1
-                    }
+                    from: 0
+                    to: 1000000
                 }
             }
 
