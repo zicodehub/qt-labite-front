@@ -73,13 +73,40 @@ Drawer {
                 backgroundItem.color: $Colors.red400
                 onClicked: {
                     if(currentNode.nodeType === "client") {
-                        let res = $Models.clients.sqlRemove(currentNode.id)
-                        if(res) control.close()
+                        const relatedOrders = $Models.orders.sqlFilter({client: currentNode.id})
+                        confirmDelete.show({
+                          "subtitle": relatedOrders.length > 0 ? `Toutes les (${relatedOrders.length}) commandes effectuée seront aussi supprimées ` : '',
+                          "callback": function (closeFunc) {
+                              if(relatedOrders.length > 0 ) {
+                                  $Models.orders.sqlRemoveMany({client: currentNode.id})
+                              }
+
+                              if ($Models.clients.sqlRemove(currentNode.id)) {
+                                  closeFunc()
+                                  control.close()
+                              }
+                          }
+
+                        })
+
                     }
 
                     if(currentNode.nodeType === "supplier") {
-                        let res = $Models.suppliers.sqlRemove(currentNode.id)
-                        if(res) control.close()
+                        const relatedOrders = $Models.orders.sqlFilter({supplier: currentNode.id})
+                        confirmDelete.show({
+                          "subtitle": relatedOrders.length > 0 ? `Toutes les (${relatedOrders.length}) commandes effectuée seront aussi supprimées ` : '',
+                          "callback": function (closeFunc) {
+                              if(relatedOrders.length > 0 ) {
+                                  $Models.orders.sqlRemoveMany({supplier: currentNode.id})
+                              }
+
+                              if ($Models.suppliers.sqlRemove(currentNode.id)) {
+                                  closeFunc()
+                                  control.close()
+                              }
+                          }
+
+                        })
                     }
 
                 }

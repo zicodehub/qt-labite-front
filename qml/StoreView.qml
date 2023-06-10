@@ -138,7 +138,22 @@ Page {
                             fulltextColor: $Colors.red400
                             MouseArea {
                                 anchors.fill: parent
-                                onClicked: $Models.articles.sqlRemoveFromListIndex(index)
+                                onClicked: {
+                                    const relatedOrders = $Models.orders.sqlFilter({article: model.id})
+                                    confirmDelete.show({
+                                      "subtitle": relatedOrders.length > 0 ? `Toutes les (${relatedOrders.length}) commandes contenant cet articles seront aussi supprimés ` : '',
+                                      "callback": function (closeFunc) {
+                                          if(relatedOrders.length > 0 ) {
+                                              $Models.orders.sqlRemoveMany({article: model.id})
+                                          }
+
+                                          if ($Models.articles.sqlRemoveFromListIndex(index)) {
+                                              closeFunc()
+                                          }
+                                      }
+
+                                    })
+                                }
                             }
                         }
                     }

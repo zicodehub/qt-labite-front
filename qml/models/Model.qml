@@ -91,9 +91,21 @@ ListModel {
 
     }
 
+    function sqlRemoveMany(filters) {
+        const items = control.model.filter(filters).all()
+        control.model.filter(filters).remove()
+        console.log("\n Gonna remove many ", items, items.map(i => i.id))
+        for(let idx in items) {
+            deleted(items[idx].id)
+        }
+
+        return true
+    }
+
     function sqlRemoveAll(pk) {
         control.model.remove()
         deletedAll()
+        return true
     }
 
     onReady: fetchAll()
