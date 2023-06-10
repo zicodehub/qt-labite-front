@@ -26,15 +26,16 @@ Page {
             clients: $Models.clients.model.all().map(item => { delete item['_model']; return item } ),
             suppliers: $Models.suppliers.model.all().map(item => { delete item['_model']; return item } ),
             type_articles: $Models.typeArticles.model.all().map(item => { delete item['_model']; return item } ),
-            articles: $Models.articles.model.all().map(item => { delete item['_model']; return {name: item.name, type_article_id: item.type_article} } ),
+            articles: $Models.articles.model.all().map(item => { delete item['_model']; return {id: item.id, name: item.name, type_article_id: item.type_article} } ),
             orders: $Models.orders.model.all().map(function(item) {
                 delete item['_model'];
-                return {name: item.name, qty_fixed: item.qty_fixed, client_id: item.client, supplier_id: item.supplier, article_id: item.article}
+                return {id: item.id, name: item.name, qty_fixed: item.qty_fixed, client_id: item.client, supplier_id: item.supplier, article_id: item.article}
             } ),
             warehouses: $Models.warehouses.model.all().map(item => { delete item['_model']; return item } ),
             vehicules: $Models.vehicules.model.all().map(item => {
                                                              delete item['_model'];
                                                              return {
+                                                                 id: item.id,
                                                                  warehouse_id: item.warehouse,
                                                                  size_compartment: item.size_compartment,
                                                                  nb_compartments: item.nb_compartments,
@@ -109,12 +110,7 @@ Page {
             Column {
                 id: generalDetailsArea
                 spacing: 7
-                anchors {
-                    top: parent.top
-                    bottom: parent.bottom
-                    left: parent.left
-                }
-                width: deliveryView.width/2
+                width: deliveryView.width - 40
 
 //                width: parent.width
 
@@ -242,12 +238,10 @@ Page {
 
             ListView {
                 id: travelListView
-                anchors {
-                    top: parent.top
-                    bottom: parent.bottom
-                    right: parent.right
-                    left: generalDetailsArea.right
-                }
+                anchors.top: generalDetailsArea.bottom
+                anchors.topMargin: 30
+                width: parent.width
+                height: 400
 
                 clip: true
                 model: Object.keys(dataset.trajet)
@@ -263,7 +257,7 @@ Page {
                     Label {
                         text: modelData
                         font {
-                            pixelSize: 18
+                            pixelSize: 24
                             weight: Font.Bold
                         }
                         color: Theme.colorPrimary
@@ -275,27 +269,28 @@ Page {
 
                         Repeater {
                             model: dataset.trajet[modelData]
-                            Rectangle {
+                            Label {
                                 required property var modelData
                                 property var node: JSON.parse(modelData)
-                                width: screenSettings.displayPayload ? 50 : 30
-                                height: width
-                                radius: height/2
-                                color: $Colors.black
-                                Label {
-                                    anchors.centerIn: parent
-                                    text: node?.name + ( screenSettings.displayPayload ? ` (${node.mvt?? 0})` : "")
-                                    font {
-                                        weight: Font.DemiBold
-                                    }
-                                    color: $Colors.white
+                                text: node?.name + ( screenSettings.displayPayload ? ` (${node.mvt?? 0})` : "") + " - "
+                                font {
+                                    weight: Font.DemiBold
+                                    pixelSize: 14
                                 }
                             }
+//                            Rectangle {
+//                                width: screenSettings.displayPayload ? 50 : 30
+//                                height: width
+//                                radius: height/2
+//                                color: $Colors.black
+//                            }
                         }
 
                     }
                 }
             }
+
+
 
         }
     }
