@@ -71,6 +71,23 @@ Page {
             right: areaSelector.left
             rightMargin: 10
         }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: function(event) {
+                if(root.paintingNodeType === "C") {
+                    $Models.clients.sqlCreate({x: event.x, y: event.y})
+                }
+                if(root.paintingNodeType === "S") {
+                    $Models.suppliers.sqlCreate({x: event.x, y: event.y})
+                }
+                if(root.paintingNodeType === "W") {
+                    $Models.warehouses.sqlCreate({x: event.x, y: event.y})
+                } else {
+                    console.log("NOne")
+                }
+                console.log("selected ", root.paintingNodeType,  paintingNodeType === "" )
+            }
+        }
 
         Repeater {
             model: $Models.clients
@@ -140,23 +157,7 @@ Page {
                 }
             }
         }
-        MouseArea {
-            anchors.fill: paintingNodeType === "" ? null : parent
-            onClicked: function(event) {
-                if(root.paintingNodeType === "C") {
-                    $Models.clients.sqlCreate({x: event.x, y: event.y})
-                }
-                if(root.paintingNodeType === "S") {
-                    $Models.suppliers.sqlCreate({x: event.x, y: event.y})
-                }
-                if(root.paintingNodeType === "W") {
-                    $Models.warehouses.sqlCreate({x: event.x, y: event.y})
-                } else {
-                    console.log("NOne")
-                }
-                console.log("selected ", root.paintingNodeType,  paintingNodeType === "" )
-            }
-        }
+
     }
 
     ColumnLayout {
