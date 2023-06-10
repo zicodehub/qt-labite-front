@@ -11,6 +11,10 @@ import "widgets"
 
 Page {
     id: orderView
+
+    property bool isEditing: false
+    property bool isFormValid: comboBoxSupplier.currentIndex > -1 && comboBoxClient.currentIndex > -1 && comboBoxArticle.currentIndex > -1 && qtyOrder.text != ""
+
     background: Rectangle {
         color: $Colors.gray100
     }
@@ -18,11 +22,163 @@ Page {
     leftPadding: 10
     rightPadding: 10
 
+    function cleanForm() {
+        qtyOrder.text = ""
+        comboBoxSupplier.currentIndex = -1
+        comboBoxClient.currentIndex = -1
+        comboBoxArticle.currentIndex = -1
+        orderView.isEditing = false
+    }
+
+    Column {
+        id: header
+        width: parent.width
+        anchors.top: parent.top
+        anchors.topMargin: 30
+        spacing: 10
+
+        RowLayout {
+            width: parent.width
+            spacing: 10
+            Label {
+                text: ordersListView.model.count + " commandes"
+                font.pixelSize: 24
+                font.weight: Font.Light
+            }
+
+            Item {
+                Layout.fillWidth: true
+            }
+            AndroidButtonIcon {
+                text: "Créer une commande"
+                source: "qrc:/assets/icons/svg/content-save-plus.svg"
+                visible: !orderView.isEditing
+                onClicked: {
+                    orderView.isEditing = !orderView.isEditing
+                }
+            }
+            AndroidButtonIcon {
+                text: "Valider la commande"
+                source: "qrc:/assets/icons/svg/content-save-plus.svg"
+                visible: isFormValid
+                onClicked: {
+                    let data = {
+                        client: comboBoxClient.currentValue,
+                        supplier: comboBoxSupplier.currentValue,
+                        article: comboBoxArticle.currentValue,
+                        qty_fixed: parseInt(qtyOrder.text)
+                    }
+
+
+                    let order = $Models.orders.sqlCreate(data)
+                    orderView.cleanForm()
+                }
+            }
+        }
+    }
+
+    RowLayout {
+        id: editArea
+        visible: orderView.isEditing
+        width: parent.width
+        height: 50
+        anchors.top: header.bottom
+        anchors.topMargin: 30
+        spacing: 0
+
+        IconSvg {
+            Layout.preferredWidth: 30
+            Layout.preferredHeight: Layout.preferredWidth
+            source: 'qrc:/assets/icons/svg/delete-forever.svg'
+            color: $Colors.red400
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    orderView.cleanForm()
+                    orderView.isEditing = false
+                }
+            }
+        }
+
+        ComboBoxThemed {
+            id: comboBoxSupplier
+            width: rectSupplier.width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            model: $Models.suppliers
+            textRole: 'id'
+            valueRole: 'id'
+            prefix: "F"
+        }
+
+        Rectangle {
+            width: 1
+            Layout.fillHeight: true
+            color: $Colors.white
+        }
+
+        ComboBoxThemed {
+            id: comboBoxClient
+            Layout.fillWidth: true
+            width: rectClient.width
+            Layout.fillHeight: true
+            model: $Models.clients
+            textRole: 'id'
+            valueRole: 'id'
+            prefix: "C"
+        }
+
+        Rectangle {
+            width: 1
+            Layout.fillHeight: true
+            color: $Colors.white
+        }
+
+        ComboBoxThemed {
+            id: comboBoxArticle
+            Layout.fillWidth: true
+            width: rectArticle.width
+            Layout.fillHeight: true
+            model: $Models.articles
+            textRole: 'name'
+            valueRole: 'id'
+        }
+
+        Rectangle {
+            width: 1
+            Layout.fillHeight: true
+            color: $Colors.white
+        }
+
+        AndroidTextField {
+            id: qtyOrder
+            title: "Qté à commander"
+            width: rectQty.width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            validator: IntValidator {
+                bottom: 1
+            }
+        }
+
+        Rectangle {
+            width: 1
+            Layout.fillHeight: true
+            color: $Colors.white
+        }
+
+        Item {
+            Layout.preferredWidth: 30
+            Layout.fillHeight: true
+        }
+    }
+
+
     RowLayout {
         id: tableHeader
         width: parent.width
         height: 30
-        anchors.top: parent.top
+        anchors.top: editArea.bottom
         anchors.topMargin: 30
         spacing: 0
 
