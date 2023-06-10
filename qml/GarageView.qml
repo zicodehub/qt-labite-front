@@ -93,6 +93,7 @@ Page {
                 model: $Models.vehicules
                 delegate: ItemDelegate {
                     required property var model
+                    required property int index
                     width: parent.width
                     height: 60
 
@@ -129,6 +130,26 @@ Page {
                             }
 
 
+                        }
+
+                        Item {
+                            Layout.fillWidth: true
+                        }
+
+                        IconSvg {
+                            Layout.preferredWidth: 30
+                            Layout.preferredHeight: Layout.preferredWidth
+                            source: 'qrc:/assets/icons/svg/delete-forever.svg'
+                            color: $Colors.red400
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    $Models.vehicules.sqlRemoveFromListIndex(index)
+                                }
+                            }
+                        }
+                        Item {
+                            Layout.preferredWidth: 30
                         }
                     }
 
