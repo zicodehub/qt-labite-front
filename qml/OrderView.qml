@@ -12,6 +12,7 @@ import "widgets"
 Page {
     id: orderView
 
+    property var itemEditIndex: null
     property bool isEditing: false
     property bool isFormValid: comboBoxSupplier.currentIndex > -1 && comboBoxClient.currentIndex > -1 && comboBoxArticle.currentIndex > -1 && qtyOrder.text != ""
 
@@ -370,6 +371,8 @@ Page {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Label {
+                    id: qtyText
+                    visible: !qtyInput.visible
                     text: model.qty_fixed
                     leftPadding: 5
                     font {
@@ -378,6 +381,47 @@ Page {
                     }
                     anchors.verticalCenter: parent.verticalCenter
                 }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        orderView.itemEditIndex = index
+                        qtyInput.forceActiveFocus()
+                    }
+                }
+
+                TextField {
+                    id: qtyInput
+                    visible: orderView.itemEditIndex === index
+                    height: parent.height
+                    width: parent.width / 2
+                    padding: 5
+                    leftPadding: 10
+                    rightPadding: 10
+                    text: qtyText.text
+                    validator: IntValidator { bottom: 1 }
+                    font {
+                        weight: Font.DemiBold
+                        pixelSize: 14
+                    }
+                    verticalAlignment: Text.AlignVCenter
+                    onAccepted: {
+                        if(qtyInput.text !== qtyText.text) {
+                            $Models.orders.sqlUpdate(model.id, {qty_fixed: parseInt(qtyInput.text)})
+                        }
+
+                        orderView.itemEditIndex = null
+                    }
+                    background: Rectangle {
+                        color: "transparent"
+                        radius: 10
+                        border {
+                            width: 1
+                            color: Theme.colorPrimary
+                        }
+                    }
+                }
+
             }
 
             Rectangle {

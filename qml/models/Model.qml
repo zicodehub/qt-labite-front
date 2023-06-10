@@ -46,8 +46,9 @@ ListModel {
         }
         return res
     }
-    function sqlUpdate(data) {
-        return control.model.update(data)
+    function sqlUpdate(id, data) {
+        control.model.filter({id: id}).update(data)
+        updated(id)
     }
     function makeObject() {
         return control.model.makeObject()
@@ -110,16 +111,24 @@ ListModel {
     onCreated: function (data) {
         insert(0, data)
     }
+    onUpdated: function (id) {
+        for(let i=0; i<control.count; i++) {
+            if(control.get(i).id === id) {
+                let newValue = control.sqlGet(id)
+                control.set(i, newValue)
+                break
+            }
+        }
+    }
+
     onDeletedAll: {
         control.clear()
         control.fetchAll()
     }
     onDeleted: function (id){
-        console.log("Deleting id=", id, " for count = ", control.count)
         for(let i=0; i<control.count; i++) {
             if(control.get(i).id === id) {
                 control.remove(i)
-                console.log("Found at index = ", i)
                 break
             }
         }
