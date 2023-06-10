@@ -52,12 +52,6 @@ ListModel {
     function makeObject() {
         return control.model.makeObject()
     }
-    function update(id, data) {
-        return control.model.filter({id: pk}).update(data)
-    }
-    function remove(pk) {
-        return control.model.filter({id: pk}).remove()
-    }
     function fetchAll() {
         var data = control.model.all()
         for(let i=0; i< data.length; i++) {
@@ -74,7 +68,9 @@ ListModel {
     }
     function sqlRemove(pk) {
         let res = control.model.filter({id: pk})
-        if(res.all().length === 0) {
+        let found = res.all().length
+        console.log("Found ", found)
+        if(found === 1) {
             control.model.filter({id: pk}).remove()
             deleted(pk)
             return true
@@ -95,9 +91,11 @@ ListModel {
         control.fetchAll()
     }
     onDeleted: function (id){
+        console.log("Deleting id=", id, " for count = ", control.count)
         for(let i=0; i<control.count; i++) {
             if(control.get(i).id === id) {
                 control.remove(i)
+                console.log("Found at index = ", i)
                 break
             }
         }

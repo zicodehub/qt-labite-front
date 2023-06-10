@@ -238,6 +238,12 @@ ApplicationWindow {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
 
+        ConfirmDelete {
+            id: confirmDelete
+            width: parent.width/2
+            height: parent.height
+        }
+
         MainView {
             anchors.fill: parent
             id: screenMainView

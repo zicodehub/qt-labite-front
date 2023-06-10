@@ -38,5 +38,6 @@
         <file>models/OrderModel.qml</file>
         <file>widgets/AddOrder.qml</file>
         <file>DeliveryView.qml</file>
+        <file>ConfirmDelete.qml</file>
     </qresource>
 </RCC>

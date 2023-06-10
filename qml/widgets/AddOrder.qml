@@ -8,7 +8,7 @@ Drawer {
     id: control
 
     property var customModel: null
-    property bool isEditing: true
+    property bool isEditing: false
     property var currentNode: null
     property bool isFormValid: comboBoxSupplier.currentIndex > -1 && comboBoxClient.currentIndex > -1 && comboBoxArticle.currentIndex > -1 && qtyOrder.text != ""
 
@@ -27,6 +27,7 @@ Drawer {
         for (let i=0; i< results.length; i++) {
             proxyModel.insert(0, results[i])
         }
+        node.nodeType = nodeType
         control.currentNode = node
         open()
     }
@@ -54,49 +55,80 @@ Drawer {
         id: proxyModel
     }
 
-    RowLayout {
+    Column {
         id: header
         width: parent.width
         anchors.top: parent.top
         anchors.topMargin: 30
-        spacing: 0
-        Label {
-            text: proxyModel.count + " commandes"
-            font.pixelSize: 24
-            font.weight: Font.Light
-        }
+        spacing: 10
 
-        Item {
-            Layout.fillWidth: true
-        }
-        AndroidButtonIcon {
-            text: "Créer une commande"
-            source: "qrc:/assets/icons/svg/content-save-plus.svg"
-            visible: !control.isEditing
-            onClicked: {
-                control.isEditing = !control.isEditing
-            }
-        }
-        AndroidButtonIcon {
-            text: "Valider la commande"
-            source: "qrc:/assets/icons/svg/content-save-plus.svg"
-            visible: isFormValid
-            onClicked: {
-                let data = {
-                    client: comboBoxClient.currentValue,
-                    supplier: comboBoxSupplier.currentValue,
-                    article: comboBoxArticle.currentValue,
-                    qty_fixed: parseInt(qtyOrder.text)
+        RowLayout {
+            width: parent.width
+            spacing: 10
+
+            AndroidButtonIcon {
+                text: "Supprimer le noeud "+(currentNode?.nodeType === 'client' ? 'C' : currentNode?.nodeType === 'supplier' ? 'F' : '' ) + currentNode?.id
+                source: 'qrc:/assets/icons/svg/delete-forever-outline.svg'
+                primaryColor: $Colors.white
+                backgroundItem.color: $Colors.red400
+                onClicked: {
+                    if(currentNode.nodeType === "client") {
+                        let res = $Models.clients.sqlRemove(currentNode.id)
+                        if(res) control.close()
+                    }
+
+                    if(currentNode.nodeType === "supplier") {
+                        let res = $Models.suppliers.sqlRemove(currentNode.id)
+                        if(res) control.close()
+                    }
+
                 }
+            }
+
+        }
+
+        RowLayout {
+            width: parent.width
+            spacing: 10
+            Label {
+                text: proxyModel.count + " commandes"
+                font.pixelSize: 24
+                font.weight: Font.Light
+            }
+
+            Item {
+                Layout.fillWidth: true
+            }
+            AndroidButtonIcon {
+                text: "Créer une commande"
+                source: "qrc:/assets/icons/svg/content-save-plus.svg"
+                visible: !control.isEditing
+                onClicked: {
+                    control.isEditing = !control.isEditing
+                }
+            }
+            AndroidButtonIcon {
+                text: "Valider la commande"
+                source: "qrc:/assets/icons/svg/content-save-plus.svg"
+                visible: isFormValid
+                onClicked: {
+                    let data = {
+                        client: comboBoxClient.currentValue,
+                        supplier: comboBoxSupplier.currentValue,
+                        article: comboBoxArticle.currentValue,
+                        qty_fixed: parseInt(qtyOrder.text)
+                    }
 
 
-                let order = $Models.orders.sqlCreate(data)
-                proxyModel.insert(0, order)
-                qtyOrder.text = ""
-//                control.close()
+                    let order = $Models.orders.sqlCreate(data)
+                    proxyModel.insert(0, order)
+                    qtyOrder.text = ""
+    //                control.close()
+                }
             }
         }
     }
+
 
     RowLayout {
         id: tableHeader

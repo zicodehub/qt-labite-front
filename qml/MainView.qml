@@ -73,19 +73,29 @@ Page {
         }
         MouseArea {
             anchors.fill: parent
-            onClicked: function(event) {
-                if(root.paintingNodeType === "C") {
-                    $Models.clients.sqlCreate({x: event.x, y: event.y})
+            onClicked: function (event) {
+                if (root.paintingNodeType === "C") {
+                    $Models.clients.sqlCreate({
+                                                  "x": event.x,
+                                                  "y": event.y
+                                              })
                 }
-                if(root.paintingNodeType === "S") {
-                    $Models.suppliers.sqlCreate({x: event.x, y: event.y})
+                if (root.paintingNodeType === "S") {
+                    $Models.suppliers.sqlCreate({
+                                                    "x": event.x,
+                                                    "y": event.y
+                                                })
                 }
-                if(root.paintingNodeType === "W") {
-                    $Models.warehouses.sqlCreate({x: event.x, y: event.y})
+                if (root.paintingNodeType === "W") {
+                    $Models.warehouses.sqlCreate({
+                                                     "x": event.x,
+                                                     "y": event.y
+                                                 })
                 } else {
                     console.log("NOne")
                 }
-                console.log("selected ", root.paintingNodeType,  paintingNodeType === "" )
+                console.log("selected ", root.paintingNodeType,
+                            paintingNodeType === "")
             }
         }
 
@@ -94,27 +104,27 @@ Page {
             delegate: Rectangle {
                 required property var model
                 required property int index
-                x: model.x - width/2
-                y: model.y - height/2
+                x: model.x - width / 2
+                y: model.y - height / 2
                 width: 30
                 height: width
                 color: nodeClient.color
-                radius: height/2
+                radius: height / 2
                 DragHandler {}
                 Label {
-                    text: "C"+model.id
+                    text: "C" + model.id
                     anchors.centerIn: parent
                 }
                 MouseArea {
                     anchors.fill: parent
                     onClicked: addOrderDrawer.show(model, "client", index)
                 }
-//                Text {
-//                       color: handler.active ? "darkgreen" : "black"
-//                       text: handler.centroid.position.x.toFixed(1) + "," + handler.centroid.position.y.toFixed(1)
-//                       x: handler.centroid.position.x - width / 2
-//                       y: handler.centroid.position.y - height
-//                   }
+                //                Text {
+                //                       color: handler.active ? "darkgreen" : "black"
+                //                       text: handler.centroid.position.x.toFixed(1) + "," + handler.centroid.position.y.toFixed(1)
+                //                       x: handler.centroid.position.x - width / 2
+                //                       y: handler.centroid.position.y - height
+                //                   }
             }
         }
 
@@ -123,15 +133,15 @@ Page {
             delegate: Rectangle {
                 required property var model
                 required property int index
-                x: model.x - width/2
-                y: model.y - height/2
+                x: model.x - width / 2
+                y: model.y - height / 2
                 width: 30
                 height: width
                 color: nodeSupplier.color
-                radius: height/2
+                radius: height / 2
                 DragHandler {}
                 Label {
-                    text: "F"+model.id
+                    text: "F" + model.id
                     anchors.centerIn: parent
                 }
                 MouseArea {
@@ -145,19 +155,30 @@ Page {
             model: $Models.warehouses
             delegate: Rectangle {
                 required property var model
-                x: model.x - width/2
-                y: model.y - height/2
+                x: model.x - width / 2
+                y: model.y - height / 2
                 width: 30
                 height: width
                 color: nodeWarehouse.color
                 DragHandler {}
                 Label {
-                    text: "D"+model.id
+                    text: "D" + model.id
                     anchors.centerIn: parent
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: confirmDelete.show({
+                                                      "subtitle": "Voulez-vous vraiment supprimer le dépot D" + model.id + " ?",
+                                                      "callback": function (closeFunc) {
+                                                          if ($Models.warehouses.sqlRemove(
+                                                                      model.id)) {
+                                                              closeFunc()
+                                                          }
+                                                      }
+                                                  })
                 }
             }
         }
-
     }
 
     ColumnLayout {
@@ -167,7 +188,6 @@ Page {
             right: parent.right
             rightMargin: 10
         }
-
 
         Container {
             Layout.fillWidth: true
@@ -191,7 +211,8 @@ Page {
                     selectorClient.opacity = selectorClient.opacity === 1 ? 0 : 1
                 }
                 onRunningChanged: {
-                    if(!running) selectorClient.opacity = 1
+                    if (!running)
+                        selectorClient.opacity = 1
                 }
             }
 
@@ -204,7 +225,8 @@ Page {
                     selectorSupplier.opacity = selectorSupplier.opacity === 1 ? 0 : 1
                 }
                 onRunningChanged: {
-                    if(!running) selectorSupplier.opacity = 1
+                    if (!running)
+                        selectorSupplier.opacity = 1
                 }
             }
 
@@ -217,7 +239,8 @@ Page {
                     selectorWarehouse.opacity = selectorWarehouse.opacity === 1 ? 0 : 1
                 }
                 onRunningChanged: {
-                    if(!running) selectorWarehouse.opacity = 1
+                    if (!running)
+                        selectorWarehouse.opacity = 1
                 }
             }
 
@@ -228,26 +251,25 @@ Page {
             Column {
                 Layout.fillWidth: true
 
-
                 Rectangle {
                     id: selectorWarehouse
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: 30
                     height: width
-                    radius: height/2
+                    radius: height / 2
                     color: nodeWarehouse.color
                     Behavior on opacity {
-                        OpacityAnimator { duration: 333 }
+                        OpacityAnimator {
+                            duration: 333
+                        }
                     }
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            if(selectorWarehouseTimer.running) {
+                            if (selectorWarehouseTimer.running) {
                                 root.paintingNodeType = ""
                                 selectorWarehouseTimer.stop()
-                            }
-
-                            else {
+                            } else {
                                 selectorClientTimer.stop()
                                 selectorSupplierTimer.stop()
 
@@ -262,30 +284,28 @@ Page {
                 }
             }
 
-
             Column {
                 Layout.fillWidth: true
-
 
                 Rectangle {
                     id: selectorClient
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: 30
                     height: width
-                    radius: height/2
+                    radius: height / 2
                     color: nodeClient.color
                     Behavior on opacity {
-                        OpacityAnimator { duration: 333 }
+                        OpacityAnimator {
+                            duration: 333
+                        }
                     }
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            if(selectorClientTimer.running) {
+                            if (selectorClientTimer.running) {
                                 root.paintingNodeType = ""
                                 selectorClientTimer.stop()
-                            }
-
-                            else {
+                            } else {
                                 selectorSupplierTimer.stop()
                                 selectorWarehouseTimer.stop()
 
@@ -306,20 +326,20 @@ Page {
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: 30
                     height: width
-                    radius: height/2
+                    radius: height / 2
                     color: nodeSupplier.color
                     Behavior on opacity {
-                        OpacityAnimator { duration: 333 }
+                        OpacityAnimator {
+                            duration: 333
+                        }
                     }
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            if(selectorSupplierTimer.running) {
+                            if (selectorSupplierTimer.running) {
                                 root.paintingNodeType = ""
                                 selectorSupplierTimer.stop()
-                            }
-
-                            else {
+                            } else {
                                 // Shutdown others
                                 selectorClientTimer.stop()
                                 selectorWarehouseTimer.stop()
@@ -328,7 +348,6 @@ Page {
                             }
                         }
                     }
-
                 }
                 Label {
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -336,13 +355,9 @@ Page {
                 }
             }
 
-
             Item {
                 Layout.preferredHeight: 50
             }
-
         }
     }
-
-
 }
