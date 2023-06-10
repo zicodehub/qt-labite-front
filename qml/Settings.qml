@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Layouts
 
 import ThemeEngine 1.0
 import "qrc:/js/UtilsNumber.js" as UtilsNumber
@@ -15,6 +16,65 @@ Item {
     property alias serverURL: _serverURL.text
     property alias displayPayload: switchPayload.checked
     ////////////////////////////////////////////////////////////////////////////
+
+    Drawer {
+        id: confirmDeleteDrawer
+        edge: Qt.LeftEdge
+        dim: true
+        modal: true
+        interactive: true
+        width: parent.width/1.5
+        height: parent.height
+        padding: 20
+
+        Item {
+            anchors.fill: parent
+            anchors.margins: 20
+            ColumnLayout {
+                width: parent.width - 2*parent.padding
+                height: parent.height
+                Item {
+                    Layout.fillHeight: true
+                }
+                Label {
+                    text: "Voulez-vous vraiment éffacer toutes les données de l'application ? Les noeuds, commandes, articles, véhicules, ... seront définitivement supprimés"
+                }
+                Item {
+                    Layout.fillHeight: true
+                }
+                RowLayout {
+                    width: parent.width
+                    AndroidButtonIcon {
+                        text: "Je veux tout supprimer"
+                        source: 'qrc:/assets/icons/svg/delete-forever-outline.svg'
+                        primaryColor: $Colors.white
+                        backgroundItem.color: $Colors.red400
+                        onClicked: {
+                            $Models.orders.sqlRemoveAll()
+                            $Models.vehicules.sqlRemoveAll()
+                            $Models.warehouses.sqlRemoveAll()
+                            $Models.articles.sqlRemoveAll()
+                            $Models.typeArticles.sqlRemoveAll()
+                            $Models.clients.sqlRemoveAll()
+                            $Models.suppliers.sqlRemoveAll()
+                            confirmDeleteDrawer.close()
+                        }
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+
+                    AndroidButtonIcon {
+                        text: "Annuler"
+                        onClicked: confirmDeleteDrawer.close()
+                    }
+                }
+            }
+        }
+
+
+    }
+
 
     Flickable {
         anchors.fill: parent
@@ -319,7 +379,7 @@ Item {
             }
 
             Rectangle {
-                height: 48
+                height: 68
                 anchors.left: parent.left
                 anchors.right: parent.right
 
@@ -353,7 +413,7 @@ Item {
                 }
 
                 AndroidButtonIcon {
-                    text: "Supprimer toutes"
+                    text: "Supprimer toutes données"
                     source: 'qrc:/assets/icons/svg/delete-forever-outline.svg'
                     primaryColor: $Colors.white
                     backgroundItem.color: $Colors.red400
@@ -363,17 +423,10 @@ Item {
 
                         top: parent.top
                         bottom: parent.bottom
-                        margins: 5
+                        margins: 10
                     }
-
                     onClicked: {
-                        $Models.orders.sqlRemoveAll()
-                        $Models.vehicules.sqlRemoveAll()
-                        $Models.warehouses.sqlRemoveAll()
-                        $Models.articles.sqlRemoveAll()
-                        $Models.typeArticles.sqlRemoveAll()
-                        $Models.clients.sqlRemoveAll()
-                        $Models.suppliers.sqlRemoveAll()
+                        confirmDeleteDrawer.open()
                     }
                 }
             }
