@@ -47,7 +47,7 @@ ListModel {
         return res
     }
     function sqlUpdate(data) {
-        return control.model.create(data)
+        return control.model.update(data)
     }
     function makeObject() {
         return control.model.makeObject()
@@ -61,9 +61,9 @@ ListModel {
     function fetchAll() {
         var data = control.model.all()
         for(let i=0; i< data.length; i++) {
-            append(data[i])
+            insert(0, data[i])
         }
-    
+
 
     }
     function sqlFilter(closes) {
@@ -88,7 +88,7 @@ ListModel {
 
     onReady: fetchAll()
     onCreated: function (data) {
-        append(data)
+        insert(0, data)
     }
     onDeletedAll: {
         control.clear()

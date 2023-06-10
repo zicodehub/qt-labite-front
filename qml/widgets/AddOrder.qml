@@ -25,7 +25,7 @@ Drawer {
             comboBoxSupplier.enabled = false
         } else return
         for (let i=0; i< results.length; i++) {
-            proxyModel.append(results[i])
+            proxyModel.insert(0, results[i])
         }
         control.currentNode = node
         open()
@@ -91,7 +91,8 @@ Drawer {
 
 
                 let order = $Models.orders.sqlCreate(data)
-                proxyModel.append(order)
+                proxyModel.insert(0, order)
+                qtyOrder.text = ""
 //                control.close()
             }
         }
