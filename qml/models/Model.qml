@@ -80,11 +80,9 @@ ListModel {
 
     function sqlRemoveFromListIndex(index) {
         let pk = control.get(index)?.id
-        console.log("Wana remove pk===", pk)
         if(pk) {
             control.model.filter({id: pk}).remove()
             deleted(pk)
-            console.log("yess deleted")
             return true
         }
         return false

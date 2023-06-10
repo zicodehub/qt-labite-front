@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import ThemeEngine
 import "qrc:/qml"
+import "../components_generic"
 
 Drawer {
     id: control
@@ -48,6 +49,7 @@ Drawer {
         comboBoxArticle.enabled = true
 
         qtyOrder.text = ""
+        isEditing = false
         proxyModel.clear()
     }
 
@@ -156,12 +158,95 @@ Drawer {
         }
     }
 
+    RowLayout {
+        id: editArea
+        visible: control.isEditing
+        width: parent.width
+        height: 50
+        anchors.top: header.bottom
+        anchors.topMargin: 30
+        spacing: 0
+
+        ComboBoxThemed {
+            id: comboBoxSupplier
+            width: rectSupplier.width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            model: $Models.suppliers
+            textRole: 'id'
+            valueRole: 'id'
+            prefix: "F"
+        }
+
+        Rectangle {
+            width: 1
+            Layout.fillHeight: true
+            color: $Colors.white
+        }
+
+        ComboBoxThemed {
+            id: comboBoxClient
+            Layout.fillWidth: true
+            width: rectClient.width
+            Layout.fillHeight: true
+            model: $Models.clients
+            textRole: 'id'
+            valueRole: 'id'
+            prefix: "C"
+        }
+
+        Rectangle {
+            width: 1
+            Layout.fillHeight: true
+            color: $Colors.white
+        }
+
+        ComboBoxThemed {
+            id: comboBoxArticle
+            Layout.fillWidth: true
+            width: rectArticle.width
+            Layout.fillHeight: true
+            model: $Models.articles
+            textRole: 'name'
+            valueRole: 'id'
+        }
+
+        Rectangle {
+            width: 1
+            Layout.fillHeight: true
+            color: $Colors.white
+        }
+
+        AndroidTextField {
+            id: qtyOrder
+            title: "Qté à commander"
+            width: rectQty.width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            validator: IntValidator {
+                bottom: 1
+            }
+        }
+
+        Rectangle {
+            width: 1
+            Layout.fillHeight: true
+            color: $Colors.white
+        }
+
+        Item {
+            Layout.preferredWidth: 30
+            Layout.fillHeight: true
+        }
+    }
+
+
 
     RowLayout {
         id: tableHeader
         width: parent.width
         height: 30
-        anchors.top: header.bottom
+        anchors.top: editArea.bottom
         anchors.topMargin: 30
         spacing: 0
 
@@ -226,27 +311,6 @@ Drawer {
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
-    }
-
-    RowLayout {
-        visible: control.isEditing
-        id: editArea
-        width: parent.width
-        height: 50
-        anchors.top: tableHeader.bottom
-        anchors.topMargin: 30
-        spacing: 0
-
-        ComboBoxThemed {
-            id: comboBoxSupplier
-            width: rectSupplier.width
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            model: $Models.suppliers
-            textRole: 'id'
-            valueRole: 'id'
-            prefix: "F"
-        }
 
         Rectangle {
             width: 1
@@ -254,48 +318,10 @@ Drawer {
             color: $Colors.white
         }
 
-        ComboBoxThemed {
-            id: comboBoxClient
-            Layout.fillWidth: true
-            width: rectClient.width
-            Layout.fillHeight: true
-            model: $Models.clients
-            textRole: 'id'
-            valueRole: 'id'
-            prefix: "C"
-        }
-
         Rectangle {
-            width: 1
+            Layout.preferredWidth: 30
             Layout.fillHeight: true
-            color: $Colors.white
-        }
-
-        ComboBoxThemed {
-            id: comboBoxArticle
-            Layout.fillWidth: true
-            width: rectArticle.width
-            Layout.fillHeight: true
-            model: $Models.articles
-            textRole: 'name'
-            valueRole: 'id'
-        }
-
-        Rectangle {
-            width: 1
-            Layout.fillHeight: true
-            color: $Colors.white
-        }
-
-        AndroidTextField {
-            id: qtyOrder
-            title: "Qté à commander"
-            width: rectQty.width
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            validator: IntValidator {
-                bottom: 1
-            }
+            color: Theme.colorPrimary
         }
     }
 
@@ -304,7 +330,7 @@ Drawer {
         id: ordersListView
         model: customModel || proxyModel
         anchors {
-            top: editArea.bottom
+            top: tableHeader.bottom
             topMargin: 5
 
             left: parent.left
@@ -315,7 +341,6 @@ Drawer {
             width: ordersListView.width
             height: 30
             background: Rectangle {
-                color: index % 2 == 0 ? 'red' : 'green'
 
                 Rectangle {
                     anchors.bottom: parent.bottom
@@ -382,6 +407,29 @@ Drawer {
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
+
+            Rectangle {
+                width: 1
+                Layout.fillHeight: true
+                color: $Colors.white
+            }
+
+            IconSvg {
+                Layout.preferredWidth: 30
+                Layout.preferredHeight: Layout.preferredWidth
+                source: 'qrc:/assets/icons/svg/delete-forever.svg'
+                color: $Colors.red400
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        if($Models.orders.sqlRemove(model.id)) {
+                            proxyModel.remove(index)
+                        }
+
+                    }
+                }
+            }
+
         }
 
     }
