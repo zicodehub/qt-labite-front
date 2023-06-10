@@ -257,6 +257,11 @@ Drawer {
             color: Theme.colorPrimary
             Label {
                 text: "Fournisseur"
+                leftPadding: 5
+                font {
+                    weight: Font.DemiBold
+                    pixelSize: 14
+                }
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
@@ -274,6 +279,11 @@ Drawer {
             color: Theme.colorPrimary
             Label {
                 text: "Client"
+                leftPadding: 5
+                font {
+                    weight: Font.DemiBold
+                    pixelSize: 14
+                }
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
@@ -291,6 +301,11 @@ Drawer {
             color: Theme.colorPrimary
             Label {
                 text: "Article"
+                leftPadding: 5
+                font {
+                    weight: Font.DemiBold
+                    pixelSize: 14
+                }
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
@@ -308,6 +323,11 @@ Drawer {
             color: Theme.colorPrimary
             Label {
                 text: "Qté"
+                leftPadding: 5
+                font {
+                    weight: Font.DemiBold
+                    pixelSize: 14
+                }
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
@@ -359,6 +379,11 @@ Drawer {
                 Layout.fillHeight: true
                 Label {
                     text: "F"+model.supplier
+                    leftPadding: 5
+                    font {
+                        weight: Font.DemiBold
+                        pixelSize: 14
+                    }
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
@@ -374,6 +399,11 @@ Drawer {
                 Layout.fillHeight: true
                 Label {
                     text: "C"+model.client
+                    leftPadding: 5
+                    font {
+                        weight: Font.DemiBold
+                        pixelSize: 14
+                    }
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
@@ -389,6 +419,11 @@ Drawer {
                 Layout.fillHeight: true
                 Label {
                     text: $Models.articles.sqlGet(model.article)?.name
+                    leftPadding: 5
+                    font {
+                        weight: Font.DemiBold
+                        pixelSize: 14
+                    }
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
@@ -404,6 +439,11 @@ Drawer {
                 Layout.fillHeight: true
                 Label {
                     text: model.qty_fixed
+                    leftPadding: 5
+                    font {
+                        weight: Font.DemiBold
+                        pixelSize: 14
+                    }
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }

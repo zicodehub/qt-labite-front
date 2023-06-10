@@ -12,7 +12,7 @@ import "widgets"
 Page {
     id: root
     background: Rectangle {
-        color: $Colors.gray100
+        color: Theme.colorBackground //$Colors.gray100
     }
 
     QtObject {
@@ -113,6 +113,8 @@ Page {
                 DragHandler {}
                 Label {
                     text: "C" + model.id
+                    font.weight: Font.DemiBold
+                    color: $Colors.white
                     anchors.centerIn: parent
                 }
                 MouseArea {
@@ -142,6 +144,8 @@ Page {
                 DragHandler {}
                 Label {
                     text: "F" + model.id
+                    font.weight: Font.DemiBold
+                    color: $Colors.white
                     anchors.centerIn: parent
                 }
                 MouseArea {
@@ -163,6 +167,7 @@ Page {
                 DragHandler {}
                 Label {
                     text: "D" + model.id
+                    font.weight: Font.DemiBold
                     anchors.centerIn: parent
                 }
                 MouseArea {
@@ -184,13 +189,16 @@ Page {
     ColumnLayout {
         id: areaSelector
         anchors {
-            verticalCenter: parent.verticalCenter
+//            verticalCenter: parent.verticalCenter
             right: parent.right
             rightMargin: 10
         }
+        x: 10
+        y: (parent.height / 2) - height/2
+        DragHandler {}
 
         Container {
-            Layout.fillWidth: true
+            id: _col
             Layout.minimumHeight: 300
             background: Rectangle {
                 radius: 30

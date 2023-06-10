@@ -16,7 +16,7 @@ Page {
     property bool isFormValid: comboBoxSupplier.currentIndex > -1 && comboBoxClient.currentIndex > -1 && comboBoxArticle.currentIndex > -1 && qtyOrder.text != ""
 
     background: Rectangle {
-        color: $Colors.gray100
+        color: Theme.colorBackground //$Colors.gray100
     }
 
     leftPadding: 10
@@ -189,6 +189,11 @@ Page {
             color: Theme.colorPrimary
             Label {
                 text: "Fournisseur"
+                leftPadding: 5
+                font {
+                    weight: Font.DemiBold
+                    pixelSize: 14
+                }
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
@@ -206,6 +211,11 @@ Page {
             color: Theme.colorPrimary
             Label {
                 text: "Client"
+                leftPadding: 5
+                font {
+                    weight: Font.DemiBold
+                    pixelSize: 14
+                }
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
@@ -223,6 +233,11 @@ Page {
             color: Theme.colorPrimary
             Label {
                 text: "Article"
+                leftPadding: 5
+                font {
+                    weight: Font.DemiBold
+                    pixelSize: 14
+                }
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
@@ -240,6 +255,11 @@ Page {
             color: Theme.colorPrimary
             Label {
                 text: "Qté"
+                leftPadding: 5
+                font {
+                    weight: Font.DemiBold
+                    pixelSize: 14
+                }
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
@@ -290,6 +310,11 @@ Page {
                 Layout.fillHeight: true
                 Label {
                     text: "F"+model.supplier
+                    leftPadding: 5
+                    font {
+                        weight: Font.DemiBold
+                        pixelSize: 14
+                    }
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
@@ -305,6 +330,12 @@ Page {
                 Layout.fillHeight: true
                 Label {
                     text: "C"+model.client
+                    leftPadding: 5
+                    font {
+                        weight: Font.DemiBold
+                        pixelSize: 14
+                    }
+
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
@@ -320,6 +351,11 @@ Page {
                 Layout.fillHeight: true
                 Label {
                     text: $Models.articles.sqlGet(model.article)?.name
+                    leftPadding: 5
+                    font {
+                        weight: Font.DemiBold
+                        pixelSize: 14
+                    }
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
@@ -335,6 +371,11 @@ Page {
                 Layout.fillHeight: true
                 Label {
                     text: model.qty_fixed
+                    leftPadding: 5
+                    font {
+                        weight: Font.DemiBold
+                        pixelSize: 14
+                    }
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }

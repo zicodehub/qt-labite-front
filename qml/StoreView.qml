@@ -12,7 +12,7 @@ import "widgets"
 Page {
     id: storeView
     background: Rectangle {
-        color: $Colors.gray200
+        color: Theme.colorBackground //$Colors.gray100
     }
 
     AddTypeArticle {

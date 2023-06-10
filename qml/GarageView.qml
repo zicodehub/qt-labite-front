@@ -12,7 +12,7 @@ import "widgets"
 Page {
     id: garageView
     background: Rectangle {
-        color: $Colors.gray200
+        color: Theme.colorBackground //$Colors.gray100
     }
 
 

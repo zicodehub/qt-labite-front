@@ -12,8 +12,9 @@ import "widgets"
 Page {
     id: deliveryView
     background: Rectangle {
-        color: $Colors.gray100
+        color: Theme.colorBackground //$Colors.gray100
     }
+
     property var dataset: null
     property string algoName: ""
     property bool isRunning: false
