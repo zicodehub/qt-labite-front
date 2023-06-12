@@ -103,6 +103,7 @@ Page {
             right: parent.right
             bottom: parent.bottom
             margins: 10
+            leftMargin: 70
         }
 
 
@@ -182,8 +183,11 @@ Page {
                             weight: Font.Light
                         }
                     }
-                    Label {
+                    TextEdit {
                         width: deliveryView.width / 2
+                        readOnly: true
+                        selectByMouse: true
+                        selectByKeyboard: true
                         wrapMode: Text.Wrap
                         text: dataset.short.join(' - ')
                         font {
@@ -225,9 +229,9 @@ Page {
                         }
                     }
                     Label {
-                        width: deliveryView.width / 2
+                        width: deliveryView.width / 1.5
                         wrapMode: Text.Wrap
-                        text: Object.keys(dataset.trajet).join(' - ')
+                        text: Object.keys(dataset.trajet).filter(function (route) { return dataset.trajet[route].length > 0 }).join(' - ') //Object.keys(dataset.trajet).join(' - ')
                         font {
                             pixelSize: 16
                             weight: Font.Light
@@ -253,7 +257,7 @@ Page {
                     property var vehiculeData: dataset["vehicules"][modelData]
 
                     width: parent.width
-                    spacing: 10
+                    spacing: 2
 
 
                     Row {
@@ -273,7 +277,6 @@ Page {
                             text: "(Total " + (vehiculeData.nb_compartments * vehiculeData.size_compartment) + ")"
                             font {
                                 pixelSize: 16
-                                weight: Font.Bold
                             }
                             color: Theme.colorPrimary
                             anchors.verticalCenter: parent.verticalCenter
@@ -285,43 +288,74 @@ Page {
                             text: "(Transporté " + value + ")"
                             font {
                                 pixelSize: 16
-                                weight: Font.Bold
                             }
                             color: Theme.colorPrimary
                             anchors.verticalCenter: parent.verticalCenter
                         }
                     }
 
-                    Flow {
+                    TextEdit {
+                        id: vehiculeTravelText
+                        property int suppliersHolding: 0
                         width: parent.width
-                        spacing: 5
-
-                        Repeater {
-                            model: dataset.trajet[modelData]
-                            Label {
-                                required property var modelData
-                                property var node: JSON.parse(modelData)
-                                text: node?.name + ( screenSettings.displayPayload ? ` (${node.mvt?? 0})` : "") + " - "
-                                font {
-                                    weight: Font.DemiBold
-                                    pixelSize: 14
-                                }
-                                Component.onCompleted: {
-                                    if(node.mvt > 0) {
-                                        console.log("Yes")
-                                        vehiculeUsedSize.value += node.mvt
-                                    }
+                        readOnly: true
+                        padding: 5
+                        selectByMouse: true
+                        selectByKeyboard: true
+                        text: node?.name + ( screenSettings.displayPayload ? ` (${node.mvt?? 0})` : "") + " - "
+                        font {
+                            weight: Font.DemiBold
+                            pixelSize: 16
+                        }
+                        function updateTravel() {
+                            text = ""
+                            let vehiculeTravel = dataset.trajet[modelData]
+                            for (let idx = 0; idx < vehiculeTravel.length; idx++) {
+                                let node = JSON.parse(vehiculeTravel[idx])
+                                text += node?.name + ( screenSettings.displayPayload ? ` (${node.mvt?? 0})` : "") + (idx+1 === vehiculeTravel.length ? "" : " - ")
+                                if(node.mvt > 0) {
+                                    vehiculeUsedSize.value += node.mvt
                                 }
                             }
-//                            Rectangle {
-//                                width: screenSettings.displayPayload ? 50 : 30
-//                                height: width
-//                                radius: height/2
-//                                color: $Colors.black
-//                            }
+
+                        }
+                        Connections {
+                            target: screenSettings
+                            function onDisplayPayloadChanged () {
+                                vehiculeTravelText.updateTravel()
+                            }
                         }
 
+                        Component.onCompleted: updateTravel()
                     }
+
+//                    Flow {
+//                        width: parent.width
+//                        spacing: 5
+
+//                        Repeater {
+//                            model: dataset.trajet[modelData]
+//                            TextEdit {
+//                                required property var modelData
+//                                property var node: JSON.parse(modelData)
+//                                readOnly: true
+//                                selectByMouse: true
+//                                selectByKeyboard: true
+//                                text: node?.name + ( screenSettings.displayPayload ? ` (${node.mvt?? 0})` : "") + " - "
+//                                font {
+//                                    weight: Font.DemiBold
+//                                    pixelSize: 14
+//                                }
+//                                Component.onCompleted: {
+//                                    if(node.mvt > 0) {
+//                                        vehiculeUsedSize.value += node.mvt
+//                                    }
+//                                }
+//                            }
+//                        }
+
+//                    }
+
                 }
             }
 
