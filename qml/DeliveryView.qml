@@ -205,7 +205,7 @@ Page {
                         }
                     }
                     Label {
-                        text: Object.keys(dataset.trajet).length + " véhicules"
+                        text: Object.values(dataset.trajet).filter(function (route) { return route.length > 0 }).length + " véhicules"
                         font {
                             pixelSize: 16
                             weight: Font.Light
@@ -250,18 +250,46 @@ Page {
                 delegate: Column {
                     required property var modelData
                     required property int index
+                    property var vehiculeData: dataset["vehicules"][modelData]
 
                     width: parent.width
-                    spacing: 5
+                    spacing: 10
 
 
-                    Label {
-                        text: modelData
-                        font {
-                            pixelSize: 24
-                            weight: Font.Bold
+                    Row {
+                        spacing: 5
+                        Label {
+                            text: modelData
+                            font {
+                                pixelSize: 24
+                                weight: Font.Bold
+                            }
+                            color: Theme.colorPrimary
+                            anchors.verticalCenter: parent.verticalCenter
                         }
-                        color: Theme.colorPrimary
+                        Label {
+                            visible: !screenSettings.displayPayload
+                            id: vehiculeTotalSize
+                            text: "(Total " + (vehiculeData.nb_compartments * vehiculeData.size_compartment) + ")"
+                            font {
+                                pixelSize: 16
+                                weight: Font.Bold
+                            }
+                            color: Theme.colorPrimary
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                        Label {
+                            visible: !screenSettings.displayPayload
+                            id: vehiculeUsedSize
+                            property int value: 0
+                            text: "(Transporté " + value + ")"
+                            font {
+                                pixelSize: 16
+                                weight: Font.Bold
+                            }
+                            color: Theme.colorPrimary
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
                     }
 
                     Flow {
@@ -277,6 +305,12 @@ Page {
                                 font {
                                     weight: Font.DemiBold
                                     pixelSize: 14
+                                }
+                                Component.onCompleted: {
+                                    if(node.mvt > 0) {
+                                        console.log("Yes")
+                                        vehiculeUsedSize.value += node.mvt
+                                    }
                                 }
                             }
 //                            Rectangle {

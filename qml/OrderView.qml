@@ -468,7 +468,7 @@ Page {
                 Label {
                     id: qtyRemainingText
                     text: {
-                        let remaining = model.qty_fixed - screenDeliveryView.dataset.orders[model.id].qty
+                        let remaining = model.qty_fixed - screenDeliveryView.dataset?.orders[model.id].qty
                         if(remaining < model.qty_fixed) {
                             qtyRemainingText.parent.color = $Colors.red400
                             qtyRemainingText.color = $Colors.white
