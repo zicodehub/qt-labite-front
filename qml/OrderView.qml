@@ -472,7 +472,11 @@ Page {
                         if(remaining < model.qty_fixed) {
                             qtyRemainingText.parent.color = $Colors.red400
                             qtyRemainingText.color = $Colors.white
+                        } else {
+                            qtyRemainingText.parent.color = "transparent"
+                            qtyRemainingText.color = $Colors.black
                         }
+
                         return remaining
                     }
 

@@ -21,6 +21,7 @@ Page {
 
     function inspect(_name) {
         deliveryView.isRunning = true
+        deliveryView.dataset = null
         deliveryView.algoName = _name
         let data = {
             clients: $Models.clients.model.all().map(item => { delete item['_model']; return item } ),
