@@ -266,6 +266,30 @@ Page {
         }
 
         Rectangle {
+            visible: screenDeliveryView.dataset !== null
+            width: 1
+            Layout.fillHeight: true
+            color: $Colors.white
+        }
+
+        Rectangle {
+            visible: screenDeliveryView.dataset !== null
+            id: rectQtyDelivered
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            color: Theme.colorPrimary
+            Label {
+                text: "Qté livrée"
+                leftPadding: 5
+                font {
+                    weight: Font.DemiBold
+                    pixelSize: 14
+                }
+                anchors.verticalCenter: parent.verticalCenter
+            }
+        }
+
+        Rectangle {
             width: 1
             Layout.fillHeight: true
             color: $Colors.white
@@ -428,6 +452,37 @@ Page {
                 width: 1
                 Layout.fillHeight: true
                 color: $Colors.white
+            }
+
+            Rectangle {
+                visible: screenDeliveryView.dataset !== null
+                width: 1
+                Layout.fillHeight: true
+                color: $Colors.white
+            }
+
+            Rectangle {
+                visible: screenDeliveryView.dataset !== null
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Label {
+                    id: qtyRemainingText
+                    text: {
+                        let remaining = model.qty_fixed - screenDeliveryView.dataset.orders[model.id].qty
+                        if(remaining < model.qty_fixed) {
+                            qtyRemainingText.parent.color = $Colors.red400
+                            qtyRemainingText.color = $Colors.white
+                        }
+                        return remaining
+                    }
+
+                    leftPadding: 5
+                    font {
+                        weight: Font.DemiBold
+                        pixelSize: 14
+                    }
+                    anchors.verticalCenter: parent.verticalCenter
+                }
             }
 
             ClipRect {
