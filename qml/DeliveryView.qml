@@ -57,6 +57,16 @@ Page {
         })
     }
 
+    function formatDuration (sec_num) {
+        var hours   = Math.floor(sec_num / 3600);
+        var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+        var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+        if (hours   < 10) {hours   = "0"+hours;}
+        if (minutes < 10) {minutes = "0"+minutes;}
+        if (seconds < 10) {seconds = "0"+seconds;}
+        return hours+'h '+minutes+'m '+seconds+' s';
+    }
     RowLayout {
         id: head
         width: parent.width - 20
@@ -111,7 +121,7 @@ Page {
             width: parent.width
             Column {
                 id: generalDetailsArea
-                spacing: 7
+                spacing: 10
                 width: deliveryView.width - 40
 
 //                width: parent.width
@@ -126,11 +136,15 @@ Page {
                             weight: Font.Light
                         }
                     }
-                    Label {
-                        text: dataset.duration
+                    TextEdit{
+                        readOnly: true
+                        leftPadding: 10
+                        selectByMouse: true
+                        selectByKeyboard: true
+                        text: formatDuration(dataset.duration_seconds)
                         font {
                             pixelSize: 16
-                            weight: Font.Light
+                            weight: Font.Bold
                         }
                     }
                 }
@@ -145,11 +159,15 @@ Page {
                             weight: Font.Light
                         }
                     }
-                    Label {
-                        text: (dataset.distance/1000).toFixed(4) + "km"
+                    TextEdit {
+                        readOnly: true
+                        leftPadding: 10
+                        selectByMouse: true
+                        selectByKeyboard: true
+                        text: (dataset.distance/1000).toFixed(4) + " km"
                         font {
                             pixelSize: 16
-                            weight: Font.Light
+                            weight: Font.Bold
                         }
                     }
                 }
@@ -164,11 +182,15 @@ Page {
                             weight: Font.Light
                         }
                     }
-                    Label {
-                        text: dataset.cout
+                    TextEdit {
+                        readOnly: true
+                        leftPadding: 10
+                        selectByMouse: true
+                        selectByKeyboard: true
+                        text: dataset.cout.toFixed(2)
                         font {
                             pixelSize: 16
-                            weight: Font.Light
+                            weight: Font.Bold
                         }
                     }
                 }
@@ -186,13 +208,14 @@ Page {
                     TextEdit {
                         width: deliveryView.width / 2
                         readOnly: true
+                        leftPadding: 10
                         selectByMouse: true
                         selectByKeyboard: true
                         wrapMode: Text.Wrap
                         text: dataset.short.join(' - ')
                         font {
                             pixelSize: 16
-                            weight: Font.Light
+                            weight: Font.Bold
                         }
                     }
                 }
@@ -208,11 +231,15 @@ Page {
                             weight: Font.Light
                         }
                     }
-                    Label {
+                    TextEdit {
+                        readOnly: true
+                        leftPadding: 10
+                        selectByMouse: true
+                        selectByKeyboard: true
                         text: Object.values(dataset.trajet).filter(function (route) { return route.length > 0 }).length + " véhicules"
                         font {
                             pixelSize: 16
-                            weight: Font.Light
+                            weight: Font.Bold
                         }
                     }
                 }
@@ -228,13 +255,17 @@ Page {
                             weight: Font.Light
                         }
                     }
-                    Label {
+                    TextEdit {
+                        readOnly: true
+                        leftPadding: 10
+                        selectByMouse: true
+                        selectByKeyboard: true
                         width: deliveryView.width / 1.5
                         wrapMode: Text.Wrap
                         text: Object.keys(dataset.trajet).filter(function (route) { return dataset.trajet[route].length > 0 }).join(' - ') //Object.keys(dataset.trajet).join(' - ')
                         font {
                             pixelSize: 16
-                            weight: Font.Light
+                            weight: Font.Bold
                         }
                     }
                 }
@@ -256,7 +287,7 @@ Page {
                     required property int index
                     property var vehiculeData: dataset["vehicules"][modelData]
 
-                    width: parent.width
+                    width: travelListView.width
                     spacing: 2
 
 
@@ -297,9 +328,10 @@ Page {
                     TextEdit {
                         id: vehiculeTravelText
                         property int suppliersHolding: 0
-                        width: parent.width
+                        width: parent.width - 50
+                        wrapMode: Text.Wrap
                         readOnly: true
-                        padding: 5
+                        leftPadding: 10
                         selectByMouse: true
                         selectByKeyboard: true
                         text: node?.name + ( screenSettings.displayPayload ? ` (${node.mvt?? 0})` : "") + " - "
