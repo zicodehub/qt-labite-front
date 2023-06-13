@@ -67,6 +67,11 @@ Page {
         if (seconds < 10) {seconds = "0"+seconds;}
         return hours+'h '+minutes+'m '+seconds+' s';
     }
+
+    function formatThousands(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    }
+
     RowLayout {
         id: head
         width: parent.width - 20
@@ -164,7 +169,7 @@ Page {
                         leftPadding: 10
                         selectByMouse: true
                         selectByKeyboard: true
-                        text: (dataset.distance/1000).toFixed(4) + " km"
+                        text: formatThousands(parseInt(dataset.distance/1000)) + " km"
                         font {
                             pixelSize: 16
                             weight: Font.Bold
@@ -187,7 +192,7 @@ Page {
                         leftPadding: 10
                         selectByMouse: true
                         selectByKeyboard: true
-                        text: dataset.cout.toFixed(2)
+                        text: formatThousands(parseInt(dataset.cout))
                         font {
                             pixelSize: 16
                             weight: Font.Bold
