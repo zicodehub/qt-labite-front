@@ -19,10 +19,21 @@ Page {
     property string algoName: ""
     property bool isRunning: false
 
-    function inspect(_name) {
+    function inspect(deliveryAlgorithm) {
         deliveryView.isRunning = true
         deliveryView.dataset = null
-        deliveryView.algoName = _name
+        let endpointAPI;
+        if(deliveryAlgorithm === $Constants._ALGO_GENETIC) {
+            deliveryView.algoName = "Algo Génétique"
+            endpointAPI = '/genetic'
+        } else if(deliveryAlgorithm === $Constants._ALGO_RECUIT) {
+            deliveryView.algoName = "Recuit simulé"
+            endpointAPI = '/recuit'
+        } else {
+            deliveryView.algoName = "ERREUR"
+            return
+        }
+
         let data = {
             clients: $Models.clients.model.all().map(item => { delete item['_model']; return item } ),
             suppliers: $Models.suppliers.model.all().map(item => { delete item['_model']; return item } ),
@@ -44,9 +55,9 @@ Page {
 
                                                          } ),
         }
-        console.log("\n Gonna request")
+        console.log("\n Gonna request ", screenSettings.serverURL+ endpointAPI)
 
-        Http.request("POST",  screenSettings.serverURL+"/recuit", data)
+        Http.request("POST",  screenSettings.serverURL+ endpointAPI, data)
         .then(function (response) {
             dataset = JSON.parse(response)
             deliveryView.isRunning = false
@@ -81,7 +92,7 @@ Page {
         AndroidButtonIcon {
             text: "Recuit simulé"
             source: "qrc:/assets/icons/svg/content-save-plus.svg"
-            onClicked: inspect("Recuit simulé")
+            onClicked: inspect($Constants._ALGO_RECUIT)
             enabled: !isRunning
         }
 
@@ -102,7 +113,7 @@ Page {
         AndroidButtonIcon {
             text: "Génétique"
             source: "qrc:/assets/icons/svg/content-save-plus.svg"
-            onClicked: inspect("Génétique")
+            onClicked: inspect($Constants._ALGO_GENETIC)
             enabled: !isRunning
         }
 
