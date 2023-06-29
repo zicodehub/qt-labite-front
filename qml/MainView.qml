@@ -110,7 +110,15 @@ Page {
                 height: width
                 color: nodeClient.color
                 radius: height / 2
-                DragHandler {}
+                DragHandler {
+                    onGrabChanged: function() {
+                        $Models.clients.sqlUpdate(model.id, {
+                                                  x: parent.x,
+                                                  y: parent.y
+                                              })
+                    }
+
+                }
                 Label {
                     text: "C" + model.id
                     font.weight: Font.DemiBold
@@ -141,7 +149,14 @@ Page {
                 height: width
                 color: nodeSupplier.color
                 radius: height / 2
-                DragHandler {}
+                DragHandler {
+                    onGrabChanged: function() {
+                        $Models.suppliers.sqlUpdate(model.id, {
+                                                  x: parent.x,
+                                                  y: parent.y
+                                              })
+                    }
+                }
                 Label {
                     text: "F" + model.id
                     font.weight: Font.DemiBold
@@ -164,7 +179,14 @@ Page {
                 width: 30
                 height: width
                 color: nodeWarehouse.color
-                DragHandler {}
+                DragHandler {
+                    onGrabChanged: function() {
+                        $Models.warehouses.sqlUpdate(model.id, {
+                                                  x: parent.x,
+                                                  y: parent.y
+                                              })
+                    }
+                }
                 Label {
                     text: "D" + model.id
                     font.weight: Font.DemiBold
