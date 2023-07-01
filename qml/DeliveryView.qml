@@ -380,6 +380,12 @@ Page {
                         Component.onCompleted: updateTravel()
                     }
 
+                    Item {
+                        height: 300
+                        width: 1
+                        visible: index === (travelListView.model.length-1)
+                    }
+
 //                    Flow {
 //                        width: parent.width
 //                        spacing: 5
