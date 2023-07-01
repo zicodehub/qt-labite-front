@@ -113,8 +113,8 @@ Page {
                 DragHandler {
                     onGrabChanged: function() {
                         $Models.clients.sqlUpdate(model.id, {
-                                                  x: parent.x,
-                                                  y: parent.y
+                                                  x: parent.x + parent.width / 2,
+                                                  y: parent.y + parent.height / 2
                                               })
                     }
 
@@ -152,8 +152,8 @@ Page {
                 DragHandler {
                     onGrabChanged: function() {
                         $Models.suppliers.sqlUpdate(model.id, {
-                                                  x: parent.x,
-                                                  y: parent.y
+                                                        x: parent.x + parent.width / 2,
+                                                        y: parent.y + parent.height / 2
                                               })
                     }
                 }
@@ -182,8 +182,8 @@ Page {
                 DragHandler {
                     onGrabChanged: function() {
                         $Models.warehouses.sqlUpdate(model.id, {
-                                                  x: parent.x,
-                                                  y: parent.y
+                                                         x: parent.x + parent.width / 2,
+                                                         y: parent.y + parent.height / 2
                                               })
                     }
                 }

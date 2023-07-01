@@ -358,10 +358,12 @@ Page {
                         function updateTravel() {
                             text = ""
                             let vehiculeTravel = dataset.trajet[modelData]
+                            console.log("\n For vehicule ", modelData)
                             for (let idx = 0; idx < vehiculeTravel.length; idx++) {
                                 let node = JSON.parse(vehiculeTravel[idx])
                                 text += node?.name + ( screenSettings.displayPayload ? ` (${node.mvt?? 0})` : "") + (idx+1 === vehiculeTravel.length ? "" : " - ")
                                 if(node.mvt > 0) {
+                                    console.log(vehiculeUsedSize.value, " -> ", node.mvt)
                                     vehiculeUsedSize.value += node.mvt
                                 }
                             }
