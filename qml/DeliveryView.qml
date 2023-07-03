@@ -252,9 +252,9 @@ Page {
                         text: "Lancer l'algo génétique"
                         source: "qrc:/assets/icons/svg/content-save-plus.svg"
                         onClicked: inspect($Constants._ALGO_GENETIC, {
-                                           nb_generations: genCount.text,
-                                           gen_max_selection: genMaxSelection.text,
-                                           proba_mutation: genMutationProbability.text
+                                           nb_generations: parseInt(genCount.text),
+                                           gen_max_selection: parseInt(genMaxSelection.text),
+                                           proba_mutation: parseFloat(genMutationProbability.text)
                                            })
                         primaryColor: "white"
                         bgColor: Theme.colorPrimary
