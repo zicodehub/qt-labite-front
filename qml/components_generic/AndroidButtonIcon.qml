@@ -29,6 +29,7 @@ T.Button {
 
     // colors
     property string primaryColor: Theme.colorPrimary
+    property string bgColor: "white"
     property alias backgroundItem: shadowarea
 
     ////////////////////////////////////////////////////////////////////////////
@@ -57,7 +58,7 @@ T.Button {
             border.color: "#eee"
             radius: 8
             border.width: 1
-            color: "white"
+            color: bgColor
         }
         DropShadow {
             anchors.fill: shadowarea

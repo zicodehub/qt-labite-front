@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts
+import QtQuick.Controls.Material
 
 import ThemeEngine 1.0
 import "qrc:/js/UtilsString.js" as UtilsString
@@ -19,7 +20,7 @@ Page {
     property string algoName: ""
     property bool isRunning: false
 
-    function inspect(deliveryAlgorithm) {
+    function inspect(deliveryAlgorithm, algorithParams) {
         deliveryView.isRunning = true
         deliveryView.dataset = null
         let endpointAPI;
@@ -34,7 +35,10 @@ Page {
             return
         }
 
+        console.log(JSON.stringify(algorithParams))
+
         let data = {
+            algo_params: algorithParams,
             clients: $Models.clients.model.all().map(item => { delete item['_model']; return item } ),
             suppliers: $Models.suppliers.model.all().map(item => { delete item['_model']; return item } ),
             type_articles: $Models.typeArticles.model.all().map(item => { delete item['_model']; return item } ),
@@ -83,38 +87,181 @@ Page {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }
 
-    RowLayout {
-        id: head
-        width: parent.width - 20
+    TabBar {
+        id: algoBar
+        width:  500
         anchors.top: parent.top
         anchors.topMargin: 20
+        enabled: !isRunning
+        Material.background: Theme.colorPrimary
 
-        AndroidButtonIcon {
-            text: "Recuit simulé"
-            source: "qrc:/assets/icons/svg/content-save-plus.svg"
-            onClicked: inspect($Constants._ALGO_RECUIT)
-            enabled: !isRunning
+
+        Material.foreground: Material.color(Material.Grey,
+                                            Material.Shade50)
+        Material.accent: Material.color(Material.Grey, Material.Shade200)
+
+        TabButton {
+           text: qsTr("Recuit simulé")
+           background: Rectangle {
+               color: algoBar.currentIndex === 0 ? Theme.colorPrimary : $Colors.gray100
+           }
+           Material.foreground: Material.color(Material.Grey,
+                                               Material.Shade900)
         }
 
-        Label {
-            text: deliveryView.algoName
-            Layout.fillWidth: true
-            horizontalAlignment: Text.AlignHCenter
-            font {
-                pixelSize: 24
-                weight: Font.Light
+        TabButton {
+           text: qsTr("Génétique")
+           background: Rectangle {
+               color: algoBar.currentIndex === 1 ? Theme.colorPrimary : $Colors.gray100
+           }
+           Material.foreground: Material.color(Material.Grey,
+                                               Material.Shade900)
+        }
+
+    }
+
+    StackLayout {
+        id: head
+        height: 200
+        currentIndex: algoBar.currentIndex
+        anchors {
+            top: algoBar.bottom
+            topMargin: 20
+
+            left: parent.left
+            right: parent.right
+            margins: 20
+        }
+        enabled: !isRunning
+
+        Item {
+            id: recuitTab
+            Column {
+                width: parent.width - 20
+                spacing: 10
+
+                Label {
+                    text: "Recuit simulé"
+                    font {
+                        pixelSize: 24
+                        weight: Font.DemiBold
+                    }
+                }
+
+                Flow {
+                    width: parent.width
+                    spacing: 10
+
+                    AndroidTextField {
+                        id: recuitTemp
+                        title: "Température"
+                        width: 300
+                        text: "10"
+                        validator: DoubleValidator {
+                            bottom: 1
+                        }
+                    }
+
+
+                    AndroidTextField {
+                        id: recuitReductor
+                        title: "Réducteur"
+                        width: 300
+                        text: "0,99"
+                        validator: DoubleValidator {
+                            bottom: 0.01
+                        }
+                    }
+
+                    AndroidTextField {
+                        id: recuitAdmissionProba
+                        title: "Probabilité d'admission"
+                        width: 300
+                        text: "0,51"
+                        validator: DoubleValidator {
+                            bottom: 1
+                        }
+                    }
+
+                    AndroidButtonIcon {
+                        text: "Lancer le recuit simulé"
+                        source: "qrc:/assets/icons/svg/content-save-plus.svg"
+                        onClicked: inspect($Constants._ALGO_RECUIT, {
+                                           temp: parseInt(recuitTemp.text),
+                                           reductor: parseFloat(recuitReductor.text),
+                                           proba_admission: parseFloat(recuitAdmissionProba.text)
+                                           })
+                        primaryColor: "white"
+                        bgColor: Theme.colorPrimary
+                    }
+                }
             }
+
         }
 
         Item {
-            Layout.fillWidth: true
-        }
+            id: geneticTab
+            Column {
+                width: parent.width - 20
+                spacing: 10
 
-        AndroidButtonIcon {
-            text: "Génétique"
-            source: "qrc:/assets/icons/svg/content-save-plus.svg"
-            onClicked: inspect($Constants._ALGO_GENETIC)
-            enabled: !isRunning
+                Label {
+                    text: "Génétique"
+                    font {
+                        pixelSize: 24
+                        weight: Font.DemiBold
+                    }
+                }
+
+                Flow {
+                    width: parent.width
+                    spacing: 10
+
+                    AndroidTextField {
+                        id: genCount
+                        title: "Nombre de générations"
+                        width: 300
+                        text: "10"
+                        validator: IntValidator {
+                            bottom: 1
+                        }
+                    }
+
+
+                    AndroidTextField {
+                        id: genMaxSelection
+                        title: "Sélection max dans la génération"
+                        width: 300
+                        text: "70"
+                        validator: IntValidator {
+                            bottom: 1
+                        }
+                    }
+
+                    AndroidTextField {
+                        id: genMutationProbability
+                        title: "Probabilité de mutation"
+                        width: 300
+                        text: "0,3"
+                        validator: DoubleValidator {
+                            bottom: 0.01
+                        }
+                    }
+
+                    AndroidButtonIcon {
+                        text: "Lancer l'algo génétique"
+                        source: "qrc:/assets/icons/svg/content-save-plus.svg"
+                        onClicked: inspect($Constants._ALGO_GENETIC, {
+                                           nb_generations: genCount.text,
+                                           gen_max_selection: genMaxSelection.text,
+                                           proba_mutation: genMutationProbability.text
+                                           })
+                        primaryColor: "white"
+                        bgColor: Theme.colorPrimary
+                    }
+                }
+            }
+
         }
 
     }
@@ -123,7 +270,6 @@ Page {
         active: dataset !== null
         anchors {
             top: head.bottom
-            topMargin: 30
 
             left: parent.left
             right: parent.right
@@ -133,14 +279,14 @@ Page {
         }
 
 
-        sourceComponent: Item {
-            width: parent.width
+        sourceComponent: ScrollView {
+            anchors.fill: parent
+            contentHeight: generalDetailsArea.height + 300
+            contentWidth: parent.width
             Column {
                 id: generalDetailsArea
                 spacing: 10
                 width: deliveryView.width - 40
-
-//                width: parent.width
 
                 Row {
                     width: parent.width
@@ -180,7 +326,7 @@ Page {
                         leftPadding: 10
                         selectByMouse: true
                         selectByKeyboard: true
-                        text: formatThousands(parseInt(dataset.distance/1000)) + " km"
+                        text: formatThousands(dataset.distance.toFixed(2)) + " km"
                         font {
                             pixelSize: 16
                             weight: Font.Bold
@@ -286,135 +432,129 @@ Page {
                     }
                 }
 
-            }
+                Repeater {
+                    id: travelListView
+                    width: parent.width
+                    model: Object.keys(dataset.trajet)
+                    delegate: Column {
+                        required property var modelData
+                        required property int index
+                        property var vehiculeData: dataset["vehicules"][modelData]
 
-            ListView {
-                id: travelListView
-                anchors.top: generalDetailsArea.bottom
-                anchors.topMargin: 30
-                width: parent.width
-                height: 400
-
-                clip: true
-                model: Object.keys(dataset.trajet)
-                spacing: 20
-                delegate: Column {
-                    required property var modelData
-                    required property int index
-                    property var vehiculeData: dataset["vehicules"][modelData]
-
-                    width: travelListView.width
-                    spacing: 2
+                        width: travelListView.width
+                        spacing: 2
 
 
-                    Row {
-                        spacing: 5
-                        Label {
-                            text: modelData
-                            font {
-                                pixelSize: 24
-                                weight: Font.Bold
+                        Row {
+                            spacing: 5
+                            Label {
+                                text: modelData
+                                font {
+                                    pixelSize: 24
+                                    weight: Font.Bold
+                                }
+                                color: Theme.colorPrimary
+                                anchors.verticalCenter: parent.verticalCenter
                             }
-                            color: Theme.colorPrimary
-                            anchors.verticalCenter: parent.verticalCenter
+                            Label {
+                                visible: !screenSettings.displayPayload
+                                id: vehiculeTotalSize
+                                text: "(Total " + (vehiculeData.nb_compartments * vehiculeData.size_compartment) + ")"
+                                font {
+                                    pixelSize: 16
+                                }
+                                color: Theme.colorPrimary
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            Label {
+                                visible: !screenSettings.displayPayload
+                                id: vehiculeUsedSize
+                                property int value: 0
+                                text: "(Transporté " + value + ")"
+                                font {
+                                    pixelSize: 16
+                                }
+                                color: Theme.colorPrimary
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
                         }
-                        Label {
-                            visible: !screenSettings.displayPayload
-                            id: vehiculeTotalSize
-                            text: "(Total " + (vehiculeData.nb_compartments * vehiculeData.size_compartment) + ")"
+
+                        TextEdit {
+                            id: vehiculeTravelText
+                            property int suppliersHolding: 0
+                            width: parent.width - 50
+                            wrapMode: Text.Wrap
+                            readOnly: true
+                            leftPadding: 10
+                            selectByMouse: true
+                            selectByKeyboard: true
+                            text: node?.name + ( screenSettings.displayPayload ? ` (${node.mvt?? 0})` : "") + " - "
                             font {
+                                weight: Font.DemiBold
                                 pixelSize: 16
                             }
-                            color: Theme.colorPrimary
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
-                        Label {
-                            visible: !screenSettings.displayPayload
-                            id: vehiculeUsedSize
-                            property int value: 0
-                            text: "(Transporté " + value + ")"
-                            font {
-                                pixelSize: 16
-                            }
-                            color: Theme.colorPrimary
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
-                    }
+                            function updateTravel() {
+                                text = ""
+                                let vehiculeTravel = dataset.trajet[modelData]
+                                vehiculeUsedSize.value = 0
+                                console.log("\n For vehicule ", modelData)
+                                for (let idx = 0; idx < vehiculeTravel.length; idx++) {
+                                    let node = JSON.parse(vehiculeTravel[idx])
+                                    text += node?.name + ( screenSettings.displayPayload ? ` (${node.mvt?? 0})` : "") + (idx+1 === vehiculeTravel.length ? "" : " - ")
+                                    if(node.mvt > 0) {
+                                        console.log(vehiculeUsedSize.value, " -> ", node.mvt)
+                                        vehiculeUsedSize.value += node.mvt
+                                    }
+                                }
 
-                    TextEdit {
-                        id: vehiculeTravelText
-                        property int suppliersHolding: 0
-                        width: parent.width - 50
-                        wrapMode: Text.Wrap
-                        readOnly: true
-                        leftPadding: 10
-                        selectByMouse: true
-                        selectByKeyboard: true
-                        text: node?.name + ( screenSettings.displayPayload ? ` (${node.mvt?? 0})` : "") + " - "
-                        font {
-                            weight: Font.DemiBold
-                            pixelSize: 16
-                        }
-                        function updateTravel() {
-                            text = ""
-                            let vehiculeTravel = dataset.trajet[modelData]
-                            vehiculeUsedSize.value = 0
-                            console.log("\n For vehicule ", modelData)
-                            for (let idx = 0; idx < vehiculeTravel.length; idx++) {
-                                let node = JSON.parse(vehiculeTravel[idx])
-                                text += node?.name + ( screenSettings.displayPayload ? ` (${node.mvt?? 0})` : "") + (idx+1 === vehiculeTravel.length ? "" : " - ")
-                                if(node.mvt > 0) {
-                                    console.log(vehiculeUsedSize.value, " -> ", node.mvt)
-                                    vehiculeUsedSize.value += node.mvt
+                            }
+                            Connections {
+                                target: screenSettings
+                                function onDisplayPayloadChanged () {
+                                    vehiculeTravelText.updateTravel()
                                 }
                             }
 
-                        }
-                        Connections {
-                            target: screenSettings
-                            function onDisplayPayloadChanged () {
-                                vehiculeTravelText.updateTravel()
-                            }
+                            Component.onCompleted: updateTravel()
                         }
 
-                        Component.onCompleted: updateTravel()
+                        Item {
+                            height: 300
+                            width: 1
+                            visible: index === (travelListView.model.length-1)
+                        }
+
+    //                    Flow {
+    //                        width: parent.width
+    //                        spacing: 5
+
+    //                        Repeater {
+    //                            model: dataset.trajet[modelData]
+    //                            TextEdit {
+    //                                required property var modelData
+    //                                property var node: JSON.parse(modelData)
+    //                                readOnly: true
+    //                                selectByMouse: true
+    //                                selectByKeyboard: true
+    //                                text: node?.name + ( screenSettings.displayPayload ? ` (${node.mvt?? 0})` : "") + " - "
+    //                                font {
+    //                                    weight: Font.DemiBold
+    //                                    pixelSize: 14
+    //                                }
+    //                                Component.onCompleted: {
+    //                                    if(node.mvt > 0) {
+    //                                        vehiculeUsedSize.value += node.mvt
+    //                                    }
+    //                                }
+    //                            }
+    //                        }
+
+    //                    }
+
                     }
-
-                    Item {
-                        height: 300
-                        width: 1
-                        visible: index === (travelListView.model.length-1)
-                    }
-
-//                    Flow {
-//                        width: parent.width
-//                        spacing: 5
-
-//                        Repeater {
-//                            model: dataset.trajet[modelData]
-//                            TextEdit {
-//                                required property var modelData
-//                                property var node: JSON.parse(modelData)
-//                                readOnly: true
-//                                selectByMouse: true
-//                                selectByKeyboard: true
-//                                text: node?.name + ( screenSettings.displayPayload ? ` (${node.mvt?? 0})` : "") + " - "
-//                                font {
-//                                    weight: Font.DemiBold
-//                                    pixelSize: 14
-//                                }
-//                                Component.onCompleted: {
-//                                    if(node.mvt > 0) {
-//                                        vehiculeUsedSize.value += node.mvt
-//                                    }
-//                                }
-//                            }
-//                        }
-
-//                    }
-
                 }
             }
+
 
 
 
