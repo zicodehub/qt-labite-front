@@ -186,11 +186,14 @@ Page {
                     AndroidButtonIcon {
                         text: "Lancer le recuit simulé"
                         source: "qrc:/assets/icons/svg/content-save-plus.svg"
-                        onClicked: inspect($Constants._ALGO_RECUIT, {
-                                           temp: parseInt(recuitTemp.text),
-                                           reductor: parseFloat(recuitReductor.text),
-                                           proba_admission: parseFloat(recuitAdmissionProba.text)
-                                           })
+                        onClicked: {
+                            inspect($Constants._ALGO_RECUIT, {
+                                                                       temp: parseInt(recuitTemp.text.replace(",", ".")),
+                                                                       reductor: parseFloat(recuitReductor.text.replace(",", ".")),
+                                                                       proba_admission: parseFloat(recuitAdmissionProba.text.replace(",", "."))
+                                                                       })
+                        }
+
                         primaryColor: "white"
                         bgColor: Theme.colorPrimary
                     }
@@ -252,9 +255,9 @@ Page {
                         text: "Lancer l'algo génétique"
                         source: "qrc:/assets/icons/svg/content-save-plus.svg"
                         onClicked: inspect($Constants._ALGO_GENETIC, {
-                                           nb_generations: parseInt(genCount.text),
-                                           gen_max_selection: parseInt(genMaxSelection.text),
-                                           proba_mutation: parseFloat(genMutationProbability.text)
+                                           nb_generations: parseInt(genCount.text.replace(",", ".")),
+                                           gen_max_selection: parseInt(genMaxSelection.text.replace(",", ".")),
+                                           proba_mutation: parseFloat(genMutationProbability.text.replace(",", "."))
                                            })
                         primaryColor: "white"
                         bgColor: Theme.colorPrimary
