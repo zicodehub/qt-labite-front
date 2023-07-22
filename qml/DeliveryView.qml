@@ -30,6 +30,9 @@ Page {
         } else if(deliveryAlgorithm === $Constants._ALGO_RECUIT) {
             deliveryView.algoName = "Recuit simulé"
             endpointAPI = '/recuit'
+        } else if(deliveryAlgorithm === $Constants._ALGO_TABU) {
+            deliveryView.algoName = "Recherche Tabou"
+            endpointAPI = '/tabu'
         } else {
             deliveryView.algoName = "ERREUR"
             return
@@ -118,6 +121,15 @@ Page {
                                                Material.Shade900)
         }
 
+        TabButton {
+           text: qsTr("Tabou")
+           background: Rectangle {
+               color: algoBar.currentIndex === 2 ? Theme.colorPrimary : $Colors.gray100
+           }
+           Material.foreground: Material.color(Material.Grey,
+                                               Material.Shade900)
+        }
+
     }
 
     StackLayout {
@@ -170,6 +182,7 @@ Page {
                         text: "0,99"
                         validator: DoubleValidator {
                             bottom: 0.01
+                            top: 0.999999999
                         }
                     }
 
@@ -179,7 +192,8 @@ Page {
                         width: 300
                         text: "0,51"
                         validator: DoubleValidator {
-                            bottom: 1
+                            bottom: 0.001
+                            top: 1
                         }
                     }
 
@@ -248,6 +262,7 @@ Page {
                         text: "0,3"
                         validator: DoubleValidator {
                             bottom: 0.01
+                            top: 1
                         }
                     }
 
@@ -258,6 +273,71 @@ Page {
                                            nb_generations: parseInt(genCount.text.replace(",", ".")),
                                            gen_max_selection: parseInt(genMaxSelection.text.replace(",", ".")),
                                            proba_mutation: parseFloat(genMutationProbability.text.replace(",", "."))
+                                           })
+                        primaryColor: "white"
+                        bgColor: Theme.colorPrimary
+                    }
+                }
+            }
+
+        }
+
+        Item {
+            id: tabuTab
+            Column {
+                width: parent.width - 20
+                spacing: 10
+
+                Label {
+                    text: "Recherche tabou"
+                    font {
+                        pixelSize: 24
+                        weight: Font.DemiBold
+                    }
+                }
+
+                Flow {
+                    width: parent.width
+                    spacing: 10
+
+                    AndroidTextField {
+                        id: tabuIterCount
+                        title: "Nombre d'itérations"
+                        width: 300
+                        text: "10"
+                        validator: IntValidator {
+                            bottom: 1
+                        }
+                    }
+
+
+                    AndroidTextField {
+                        id: tabuMaxTabuSize
+                        title: "Taille maximale de la liste Tabou"
+                        width: 300
+                        text: "20"
+                        validator: IntValidator {
+                            bottom: 1
+                        }
+                    }
+
+                    AndroidTextField {
+                        id: tabuOutAtTime
+                        title: "Nombre de sorties simultannées"
+                        width: 300
+                        text: "1"
+                        validator: IntValidator {
+                            bottom: 1
+                        }
+                    }
+
+                    AndroidButtonIcon {
+                        text: "Lancer la recherche tabou"
+                        source: "qrc:/assets/icons/svg/content-save-plus.svg"
+                        onClicked: inspect($Constants._ALGO_TABU, {
+                                           max_iter: parseInt(tabuIterCount.text.replace(",", ".")),
+                                           max_tabu_list_size: parseInt(tabuMaxTabuSize.text.replace(",", ".")),
+                                           nb_out_at_time: parseInt(tabuOutAtTime.text.replace(",", "."))
                                            })
                         primaryColor: "white"
                         bgColor: Theme.colorPrimary

@@ -4,6 +4,7 @@ import QtQuick.Layouts
 
 import ThemeEngine 1.0
 import "qrc:/js/UtilsNumber.js" as UtilsNumber
+import "qrc:/js/Http.js" as Http
 import "components_generic"
 
 Item {
@@ -319,18 +320,79 @@ Item {
                     verticalAlignment: Text.AlignVCenter
                 }
 
-                TextFieldThemed {
-                    id: _serverURL
-                    text: "http://localhost:8080"
-                    anchors.right: parent.right
-                    anchors.rightMargin: 30
+                Rectangle {
+                    id: itemServerStatus
+                    property bool working: false
+                    property var checkStatus: function () {
+                        console.log("\n\n CHECK STATUS \n\n")
+                        visible = false
+                        Http.request("GET",  screenSettings.serverURL)
+                        .then(function (response) {
+                            itemServerStatus.visible = true
+                            JSON.parse(response)
+                            itemServerStatus.working = true
+                        })
+                        .catch(function (e) {
+                            itemServerStatus.visible = true
+                            console.log("Error request ", e, JSON.stringify(e))
+                            itemServerStatus.working = false
+                        })
+                    }
+                    Component.onCompleted: checkStatus()
 
+                    width: 40
+                    height: width
+                    radius: height/2
+                    color: working ? $Colors.green600 : $Colors.red400
                     anchors.left: _middleText.right
                     anchors.leftMargin: 20
+
                     anchors.verticalCenter: parent.verticalCenter
-                    validator: RegularExpressionValidator {
-                        regularExpression: /^(http:\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
+
+                    Text {
+                        text: parent.working ? "OK" : "NON"
+                        anchors.centerIn: parent
                     }
+                }
+
+
+                TextArea {
+                    id: _serverURL
+                    text: "http://localhost:8080"
+
+                    onTextChanged: btnUpdateServerAddress.clicked()
+
+                    anchors.top: parent.top
+                    anchors.topMargin: 7
+
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 7
+
+                    anchors.left: itemServerStatus.right
+                    anchors.leftMargin: 20
+
+                    anchors.right: btnUpdateServerAddress.left
+                    anchors.rightMargin: 30
+
+                    anchors.verticalCenter: parent.verticalCenter
+                    verticalAlignment: Text.AlignVCenter
+
+                    font.pixelSize: 16
+//                    validator: RegularExpressionValidator {
+//                        regularExpression: /^(http:\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
+//                    }
+                }
+
+
+                Button {
+                    id: btnUpdateServerAddress
+                    width: 120
+                    text: "Vérifier le server"
+
+                    anchors.right: parent.right
+                    anchors.rightMargin: 30
+                    anchors.verticalCenter: parent.verticalCenter
+                    onClicked: itemServerStatus.checkStatus()
                 }
             }
 

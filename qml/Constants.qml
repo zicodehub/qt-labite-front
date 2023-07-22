@@ -9,4 +9,5 @@ QtObject {
 
     readonly property string _ALGO_RECUIT: "RECUIT_SIMULE"
     readonly property string _ALGO_GENETIC: "GENETIC"
+    readonly property string _ALGO_TABU: "TABU"
 }
