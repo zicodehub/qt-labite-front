@@ -16,6 +16,7 @@ Item {
 
     property alias serverURL: _serverURL.text
     property alias displayPayload: switchPayload.checked
+    property alias nodeSize: _nodeSize.text
     ////////////////////////////////////////////////////////////////////////////
 
     Drawer {
@@ -394,6 +395,70 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     onClicked: itemServerStatus.checkStatus()
                 }
+            }
+
+            Rectangle {
+                height: 48
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                color: Theme.colorForeground
+
+                IconSvg {
+                    id: _imgNodeSize
+                    width: 24
+                    height: 24
+                    anchors.left: parent.left
+                    anchors.leftMargin: screenPaddingLeft + 16
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    color: Theme.colorIcon
+                    source: 'qrc:/assets/icons/svg/server-security.svg'
+                }
+
+                Text{
+                    id: _labelNodeSize
+                    anchors.left: _imgNodeSize.right
+                    anchors.leftMargin: 24
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    text: qsTr("Taille des noeuds")
+                    textFormat: Text.PlainText
+                    font.pixelSize: Theme.fontSizeContent
+                    font.bold: false
+                    color: Theme.colorText
+                    wrapMode: Text.WordWrap
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+
+                TextField {
+                    id: _nodeSize
+                    text: "25"
+
+//                    onTextChanged: btnUpdateServerAddress.clicked()
+
+                    anchors.top: parent.top
+                    anchors.topMargin: 7
+
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 7
+
+                    anchors.left: _labelNodeSize.right
+                    anchors.leftMargin: 20
+
+                    anchors.right: parent.right
+                    anchors.rightMargin: 30
+
+                    anchors.verticalCenter: parent.verticalCenter
+                    verticalAlignment: Text.AlignVCenter
+
+                    font.pixelSize: 16
+                    validator: IntValidator {
+                        bottom: 10
+                    }
+                }
+
             }
 
             Item {
