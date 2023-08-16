@@ -37,6 +37,7 @@ Page {
 
     property string paintingNodeType: ""
     property bool shouldDisplayArea: false
+    property bool isMultiWarehouses: false
 
     Settings {
         id: areasSettings
@@ -66,8 +67,29 @@ Page {
         Label {
             text: $Models.warehouses.count + " dépots"
         }
+
+
+        Item {
+            width: 100
+            height: 1
+        }
         Row {
-            leftPadding: 30
+            Label {
+                text: "Activer le multi dépots"
+            }
+            Switch {
+                id: switchIsMultiWarehouses
+                onPositionChanged: root.isMultiWarehouses = !root.isMultiWarehouses
+            }
+        }
+
+
+        Item {
+            width: 100
+            height: 1
+        }
+        Row {
+            visible: root.isMultiWarehouses
             Label {
                 text: "Vérifier les zones ?"
             }
@@ -297,6 +319,7 @@ Page {
             id: splitView
             anchors.fill: parent
             orientation: Qt.Horizontal
+            visible: root.isMultiWarehouses
 
             handle: Rectangle {
                 id: handleDelegate

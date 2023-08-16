@@ -17,8 +17,11 @@ Page {
     }
 
     property var dataset: null
+    property var dataWarehouse: null
+    property int selectedAreaID: 0
     property string algoName: ""
     property bool isRunning: false
+    property bool isMulti: true
 
     function inspect(deliveryAlgorithm, algorithParams) {
         deliveryView.isRunning = true
@@ -42,6 +45,7 @@ Page {
 
         let data = {
             algo_params: algorithParams,
+            areas: [1, 2, 3],
             clients: $Models.clients.model.all().map(item => { delete item['_model']; return item } ),
             suppliers: $Models.suppliers.model.all().map(item => { delete item['_model']; return item } ),
             type_articles: $Models.typeArticles.model.all().map(item => { delete item['_model']; return item } ),
@@ -62,11 +66,25 @@ Page {
 
                                                          } ),
         }
-        console.log("\n Gonna request ", screenSettings.serverURL+ endpointAPI)
+        const finalURL = screenSettings.serverURL+ (deliveryView.isMulti ? '/multi' : '') + endpointAPI
+        console.log("\n Gonna request ", finalURL)
 
-        Http.request("POST",  screenSettings.serverURL+ endpointAPI, data)
+        Http.request("POST",  finalURL, data)
         .then(function (response) {
-            dataset = JSON.parse(response)
+            try {
+                const parsedResponse = JSON.parse(response)
+                if(deliveryView.isMulti) {
+                     areasBar.currentIndex = -1
+                    deliveryView.dataWarehouse = parsedResponse
+                    areasBar.currentIndex = 0
+                } else {
+                    dataset = parsedResponse
+                }
+
+            } catch(e) {
+                console.warn(e, e?.message)
+            }
+
             deliveryView.isRunning = false
         })
         .catch(function (e) {
@@ -349,10 +367,58 @@ Page {
 
     }
 
+    TabBar {
+        id: areasBar
+        width:  500
+        anchors.top: head.bottom
+        anchors.topMargin: 20
+        Material.background: Theme.colorPrimary
+        visible: deliveryView.isMulti && !deliveryView.isRunning && deliveryView.dataWarehouse != null
+
+        Material.foreground: Material.color(Material.Grey,
+                                            Material.Shade50)
+        Material.accent: Material.color(Material.Grey, Material.Shade200)
+
+        onCurrentIndexChanged: {
+            if(deliveryView.dataWarehouse) {
+                deliveryView.dataset = deliveryView.dataWarehouse[currentIndex+1]
+            }
+
+        }
+
+        TabButton {
+           text: qsTr("Quartier 1")
+           background: Rectangle {
+               color: areasBar.currentIndex === 0 ? Theme.colorPrimary : $Colors.gray100
+           }
+           Material.foreground: Material.color(Material.Grey,
+                                               Material.Shade900)
+        }
+
+        TabButton {
+           text: qsTr("Quartier 2")
+           background: Rectangle {
+               color: areasBar.currentIndex === 1 ? Theme.colorPrimary : $Colors.gray100
+           }
+           Material.foreground: Material.color(Material.Grey,
+                                               Material.Shade900)
+        }
+
+        TabButton {
+           text: qsTr("Quartier 3")
+           background: Rectangle {
+               color: areasBar.currentIndex === 2 ? Theme.colorPrimary : $Colors.gray100
+           }
+           Material.foreground: Material.color(Material.Grey,
+                                               Material.Shade900)
+        }
+
+    }
+
     Loader {
         active: dataset !== null
         anchors {
-            top: head.bottom
+            top: areasBar.bottom
 
             left: parent.left
             right: parent.right
