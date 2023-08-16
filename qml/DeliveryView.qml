@@ -21,7 +21,7 @@ Page {
     property int selectedAreaID: 0
     property string algoName: ""
     property bool isRunning: false
-    property bool isMulti: true
+    property bool isMulti: screenMainView.isMultiWarehouses
 
     function inspect(deliveryAlgorithm, algorithParams) {
         deliveryView.isRunning = true
@@ -146,6 +146,17 @@ Page {
            }
            Material.foreground: Material.color(Material.Grey,
                                                Material.Shade900)
+        }
+
+        TabButton {
+           text: qsTr("(Multi-dépots)")
+           background: Rectangle {
+               color: $Colors.gray100
+           }
+           Material.background: Material.color(Material.Grey,
+                                               Material.Shade100)
+           enabled: false
+           visible: isMulti
         }
 
     }

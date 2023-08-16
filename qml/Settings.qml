@@ -77,6 +77,68 @@ Item {
 
     }
 
+    Drawer {
+        id: confirmResetDB
+        edge: Qt.LeftEdge
+        dim: true
+        modal: true
+        interactive: true
+        width: parent.width/1.5
+        height: parent.height
+        padding: 20
+
+        Item {
+            anchors.fill: parent
+            anchors.margins: 20
+            ColumnLayout {
+                width: parent.width - 2*parent.padding
+                height: parent.height
+                Item {
+                    Layout.fillHeight: true
+                }
+                Label {
+                    text: "Toutes toutes les données seront éffacer et la base sera reconstruite"
+                    font.pixelSize: 24
+                }
+                Item {
+                    Layout.fillHeight: true
+                }
+                RowLayout {
+                    width: parent.width
+                    AndroidButtonIcon {
+                        text: "Je veux reconstruire la base"
+                        source: 'qrc:/assets/icons/svg/delete-forever-outline.svg'
+                        primaryColor: $Colors.white
+                        backgroundItem.color: $Colors.red400
+                        onClicked: {
+                            $Models.orders.sqlRemoveAll()
+                            $Models.vehicules.sqlRemoveAll()
+                            $Models.warehouses.sqlRemoveAll()
+                            $Models.articles.sqlRemoveAll()
+                            $Models.typeArticles.sqlRemoveAll()
+                            $Models.clients.sqlRemoveAll()
+                            $Models.suppliers.sqlRemoveAll()
+
+                            // Wipe BD
+                            $Models.loseAndChangeDB()
+
+                            confirmResetDB.close()
+                        }
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+
+                    AndroidButtonIcon {
+                        text: "Annuler"
+                        onClicked: confirmDeleteDrawer.close()
+                    }
+                }
+            }
+        }
+
+
+    }
 
     Flickable {
         anchors.fill: parent
@@ -434,7 +496,7 @@ Item {
 
                 TextField {
                     id: _nodeSize
-                    text: "25"
+                    text: "30"
 
 //                    onTextChanged: btnUpdateServerAddress.clicked()
 
@@ -554,6 +616,59 @@ Item {
                     }
                     onClicked: {
                         confirmDeleteDrawer.open()
+                    }
+                }
+            }
+
+            Rectangle {
+                height: 68
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                color: Theme.colorForeground
+
+                IconSvg {
+                    id: iconResetDB
+                    width: 24
+                    height: 24
+                    anchors.left: parent.left
+                    anchors.leftMargin: screenPaddingLeft + 16
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    color: Theme.colorIcon
+                    source: 'qrc:/assets/icons/svg/server-security.svg'
+                }
+
+                Text{
+                    id: textResetDB
+                    anchors.left: iconResetDB.right
+                    anchors.leftMargin: 24
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    text: qsTr("RECONSTRUIRE LA BASE")
+                    textFormat: Text.PlainText
+                    font.pixelSize: Theme.fontSizeContent
+                    font.bold: false
+                    color: Theme.colorText
+                    wrapMode: Text.WordWrap
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                AndroidButtonIcon {
+                    text: "Reconstruire la base de données"
+                    source: 'qrc:/assets/icons/svg/delete-forever-outline.svg'
+                    primaryColor: $Colors.white
+                    backgroundItem.color: $Colors.red400
+                    anchors {
+                        right: parent.right
+                        rightMargin: 30
+
+                        top: parent.top
+                        bottom: parent.bottom
+                        margins: 10
+                    }
+                    onClicked: {
+                        confirmResetDB.open()
                     }
                 }
             }
